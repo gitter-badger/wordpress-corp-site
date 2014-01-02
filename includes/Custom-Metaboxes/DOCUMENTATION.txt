@@ -1,0 +1,465 @@
+
+REFERENCE: https://github.com/webdevstudios/Custom-Metaboxes-and-Fields-for-WordPress/wiki/Field-Types
+
+Sign up Sign in
+Explore
+Features
+Enterprise
+Blog
+
+This repository
+Star 1,175 Fork 291 PUBLIC WebDevStudios / Custom-Metaboxes-and-Fields-for-WordPress
+Home Pages History
+Page History Clone URL
+Basic Usage
+
+This code is designed to be run inside themes and plugins. I typically put it inside [theme or plugin]/lib/metabox, but you can put it wherever you like. For this example it will be in child-theme/lib/metabox.You can then use it within your theme or plugin. For this example, my customizations are going in child-theme/functions.php.
+
+Create Metaboxes
+
+First you add a filter to 'cmb_meta_boxes' that adds your metabox to the $meta_boxes array. It is also a good idea to define a $prefix variable.
+
+<?php
+function be_sample_metaboxes( $meta_boxes ) {
+	$prefix = '_cmb_'; // Prefix for all fields
+	$meta_boxes[] = array(
+		'id' => 'test_metabox',
+		'title' => 'Test Metabox',
+		'pages' => array('page'), // post type
+		'context' => 'normal',
+		'priority' => 'high',
+		'show_names' => true, // Show field names on the left
+		'fields' => array(
+			array(
+				'name' => 'Test Text',
+				'desc' => 'field description (optional)',
+				'id' => $prefix . 'test_text',
+				'type' => 'text'
+			),
+		),
+	);
+
+	return $meta_boxes;
+}
+add_filter( 'cmb_meta_boxes', 'be_sample_metaboxes' );
+This creates a metabox titled "Text Metabox" that shows up on all pages and contains a single text field. The important things to note are that you're adding to the existing $meta_boxes array ( $meta_boxes[] = ... ) and at the end you're returning the whole array.
+
+Initialize Metaboxes
+
+Once you've set up your metaboxes, you'll need to add the initialization function:
+
+<?php
+// Initialize the metabox class
+add_action( 'init', 'be_initialize_cmb_meta_boxes', 9999 );
+function be_initialize_cmb_meta_boxes() {
+	if ( !class_exists( 'cmb_Meta_Box' ) ) {
+		require_once( 'lib/metabox/init.php' );
+	}
+}
+The important things to note here are that you're first checking to see if the cmb_Meta_Box class exists, and if it doesn't you're calling the init.php file. Make sure you're linking to the file correctly. I typically use a theme or plugin constant (not shown in above code). Simply putting the require_once() function call inside your functions.php file will not work, so make sure that you attach it via the shown add_action().
+
+Display the Metadata
+
+In your theme file, you'll need to use the get_post_meta() function to display your metadata within the loop. Let's assume you created a metabox with the field outlined above, and want to display this on the single page template (page.php). Your template might look like this before you start (from TwentyEleven):
+
+<?php
+/**
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site will use a
+ * different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Eleven
+ * @since Twenty Eleven 1.0
+ */
+
+get_header(); ?>
+
+		<div id="primary">
+			<div id="content" role="main">
+
+				<?php while ( have_posts() ) : the_post(); ?>
+
+					<?php get_template_part( 'content', 'page' ); ?>
+
+					<?php comments_template( '', true ); ?>
+
+				<?php endwhile; // end of the loop. ?>
+
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+<?php get_footer(); ?>
+After loading the page content with get_template_part( 'content', 'page' ), we'll add our code for the metabox:
+
+<?php
+global $post;
+$text = get_post_meta( $post->ID, '_cmb_test_text', true );
+echo $text;
+?>
+So the final template will look like this:
+
+<?php
+/**
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site will use a
+ * different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Eleven
+ * @since Twenty Eleven 1.0
+ */
+
+get_header(); ?>
+
+		<div id="primary">
+			<div id="content" role="main">
+
+				<?php while ( have_posts() ) : the_post(); ?>
+
+					<?php get_template_part( 'content', 'page' ); ?>
+
+					<?php
+					global $post;
+					$text = get_post_meta( $post->ID, '_cmb_test_text', true );
+					echo $text;
+					?>
+
+					<?php comments_template( '', true ); ?>
+
+				<?php endwhile; // end of the loop. ?>
+
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+<?php get_footer(); ?>
+For more information, see the Codex page for get_post_meta()
+Last edited by jtallant, a year ago
+
+Status API Training Shop Blog About © 2013 GitHub, Inc. Terms Privacy Security Contact
+
+
+Sign up Sign in
+Explore
+Features
+Enterprise
+Blog
+
+This repository
+Star 1,175 Fork 291 PUBLIC WebDevStudios / Custom-Metaboxes-and-Fields-for-WordPress
+Home Pages History
+Page History Clone URL
+Display Options
+
+Metaboxes should be context-specific, and only show up when relevant. There's two tools you can use to limit their display:
+
+pages - limits the post types it applies to
+show_on - can limit to specific page/post IDs, page templates, or any other show_on filter you define
+Both of these are used when you define your metabox.
+
+Limit to specific post types
+
+For every metabox you create, you should specify the post types to which it applies. They'll be listed as an array. Here's an example that only applies to pages:
+
+$meta_boxes[] = array(
+	'id' => 'test_metabox',
+	'title' => 'Test Metabox',
+	'pages' => array('page'), // post type
+	'context' => 'normal', //  'normal', 'advanced', or 'side'
+	'priority' => 'high',  //  'high', 'core', 'default' or 'low'
+	'show_names' => true, // Show field names on the left
+	'fields' => array( ...
+Here's an example that displays on posts and events:
+
+$meta_boxes[] = array(
+	'id' => 'test_metabox',
+	'title' => 'Test Metabox',
+	'pages' => array('post', 'event'), // post type
+	'context' => 'normal', //  'normal', 'advanced', or 'side'
+	'priority' => 'high',  //  'high', 'core', 'default' or 'low'
+	'show_names' => true, // Show field names on the left
+	'fields' => array(
+Limit to specific IDs
+
+Let's say you have two pages, About Us (page ID - 50) and Contact Us (page ID - 24). You created a Contact Information metabox that you want only displaying on these two pages. Here's what the beginning of your metabox might look like.
+
+$meta_boxes[] = array(
+	'id' => 'contact-information',
+	'title' => 'Contact Information',
+	'pages' => array('page'), // post type
+	'show_on' => array( 'key' => 'id', 'value' => array( 50, 24 ) ),
+	'context' => 'normal', //  'normal', 'advanced', or 'side'
+	'priority' => 'high',  //  'high', 'core', 'default' or 'low'
+	'show_names' => true, // Show field names on the left
+	'fields' => array(
+The type of show_on filter (key) is "id" and the value for that filter is an array of your IDs. If you only wanted it on the About page you could use 'value' => 50 instead of putting it in an array.
+
+Limit to specific page templates
+
+This will limit it to the page template with the file name template-contact.php. If you want to include it on multiple page templates, put them all in an array like in the above example.
+
+$meta_boxes[] = array(
+	'id' => 'contact-information',
+	'title' => 'Contact Information',
+	'pages' => array('page'), // post type
+	'show_on' => array( 'key' => 'page-template', 'value' => 'template-contact.php' ),
+	'context' => 'normal', //  'normal', 'advanced', or 'side'
+	'priority' => 'high',  //  'high', 'core', 'default' or 'low'
+	'show_names' => true, // Show field names on the left
+	'fields' => array(
+More Show On Filters
+
+You can also Add your own show_on filters, and that page lists some examples.
+Last edited by sxalexander, 2 years ago
+Status API Training Shop Blog About © 2013 GitHub, Inc. Terms Privacy Security Contact
+
+
+Here's the built-in fields you can include in your metabox. You can also add your own field types.
+
+Note that all the id's have $prefix in them. It's a good practice to create a unique prefix for your fields so you don't risk using the same id as another theme/plugin. Take a look at example-functions.php to see how you define the prefix.
+
+title - A large title (useful for breaking up sections of fields in metabox). Example:
+
+array(
+	'name' => 'Test Title',
+	'desc' => 'This is a title description',
+	'type' => 'title',
+	'id' => $prefix . 'test_title'
+),
+text - Standard text field (large). Example:
+
+array(
+	'name' => 'Test Text',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_text',
+	'type' => 'text'
+),
+text_small - Small text field. Example:
+
+array(
+	'name' => 'Test Text Small',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textsmall',
+	'type' => 'text_small'
+),
+text_medium - Medium text field. Example:
+
+array(
+	'name' => 'Test Text Medium',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textmedium',
+	'type' => 'text_medium'
+),
+text_date - Date field. Stored in m/d/Y format (ex: 09/01/2011). Example:
+
+array(
+	'name' => 'Test Date Picker',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_textdate',
+	'type' => 'text_date'
+),
+text_date_timestamp - Date field, stored as UNIX timestamp. Useful if you plan to query based on it (ex: events listing ). Example:
+
+array(
+	'name' => 'Test Date Picker',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_textdate',
+	'type' => 'text_date_timestamp'
+),
+text_money - Standard text field with dollar sign in front of it (useful to prevent users from adding a dollar sign to input). Example:
+
+array(
+	'name' => 'Test Money',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textmoney',
+	'type' => 'text_money'
+),
+textarea - Standard textarea. Example:
+
+array(
+	'name' => 'Test Text Area',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textarea',
+	'type' => 'textarea'
+),
+textarea_small - Smaller textarea. Example:
+
+array(
+	'name' => 'Test Text Area Small',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textareasmall',
+	'type' => 'textarea_small'
+),
+textarea_code - Code textarea. Example:
+
+array(
+	'name' => 'Test Text Area Code',
+	'desc' => 'field description (optional)',
+	'std' => 'standard value (optional)',
+	'id' => $prefix . 'test_textareacode',
+	'type' => 'textarea_code'
+),
+select - Standard select dropdown. Example:
+
+array(
+	'name' => 'Test Select',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_select',
+	'type' => 'select',
+	'options' => array(
+		array('name' => 'Option One', 'value' => 'standard'),
+		array('name' => 'Option Two', 'value' => 'custom'),
+		array('name' => 'Option Three', 'value' => 'none')
+	)
+),
+radio_inline - Inline radio buttons. Example:
+
+array(
+	'name' => 'Test Radio inline',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_radio',
+	'type' => 'radio_inline',
+	'options' => array(
+		array('name' => 'Option One', 'value' => 'standard'),
+		array('name' => 'Option Two', 'value' => 'custom'),
+		array('name' => 'Option Three', 'value' => 'none')
+	)
+),
+radio - Standard radio buttons. Example:
+
+array(
+	'name' => 'Test Radio',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_radio',
+	'type' => 'radio',
+	'options' => array(
+		array('name' => 'Option One', 'value' => 'standard'),
+		array('name' => 'Option Two', 'value' => 'custom'),
+		array('name' => 'Option Three', 'value' => 'none')
+	)
+),
+checkbox - Standard checkbox. Example:
+
+array(
+	'name' => 'Test Checkbox',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_checkbox',
+	'type' => 'checkbox'
+),
+multicheck - A field with multiple checkboxes (and multiple can be selected). Example:
+
+array(
+	'name' => 'Test Multi Checkbox',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_multicheckbox',
+	'type' => 'multicheck',
+	'options' => array(
+		'check1' => 'Check One',
+		'check2' => 'Check Two',
+		'check3' => 'Check Three',
+	)
+),
+wysiwyg - A metabox with TinyMCE editor (same as WordPress' visual editor). Example:
+
+array(
+	'name' => 'Test wysiwyg',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_wysiwyg',
+	'type' => 'wysiwyg',
+	'options' => array(),
+),
+Note: Text added in a wysiwyg field will not have paragraph tags automatically added, the same is true of standard WordPress post content editing with the WYSIWYG. When outputting formatted text, wrap your get_post_meta() call with wpautop to generate the paragraph tags.
+echo wpautop( get_post_meta( get_the_ID(), $prefix . 'test_wysiwyg', true ) );
+The options array allows you to customize the settings of the wysiwyg. Here's an example with all the options:
+
+array(
+	'name' => 'Test wysiwyg',
+	'desc' => 'field description (optional)',
+	'id' => $prefix . 'test_wysiwyg',
+	'type' => 'wysiwyg',
+	'options' => array(
+	    'wpautop' => true, // use wpautop?
+	    'media_buttons' => true, // show insert/upload button(s)
+	    'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
+	    'textarea_rows' => get_option('default_post_edit_rows', 10), // rows="..."
+	    'tabindex' => '',
+	    'editor_css' => '', // intended for extra styles for both visual and HTML editors buttons, needs to include the <style> tags, can use "scoped".
+	    'editor_class' => '', // add extra class(es) to the editor textarea
+	    'teeny' => false, // output the minimal editor config used in Press This
+	    'dfw' => false, // replace the default fullscreen with DFW (needs specific css)
+	    'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+	    'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+	),
+),
+taxonomy_select - A select field pre-populated with taxonomy terms. Example:
+
+array(
+	'name' => 'Test Taxonomy Select',
+	'desc' => 'Description Goes Here',
+	'id' => $prefix . 'text_taxonomy_select',
+	'taxonomy' => 'category', //Enter Taxonomy Slug
+	'type' => 'taxonomy_select',
+),
+taxonomy_radio - Radio buttons pre-populated with taxonomy terms. Example:
+
+array(
+	'name' => 'Test Taxonomy Radio',
+	'desc' => 'Description Goes Here',
+	'id' => $prefix . 'text_taxonomy_radio',
+	'taxonomy' => '', //Enter Taxonomy Slug
+	'type' => 'taxonomy_radio',
+),
+taxonomy_multicheck - A field with checkboxes with taxonomy terms, and multiple terms can be selected
+
+array(
+	'name' => 'Test Taxonomy Multicheck',
+	'desc' => 'Description Goes Here',
+	'id' => $prefix . 'text_taxonomy_multicheck',
+	'taxonomy' => '', //Enter Taxonomy Slug
+	'type' => 'taxonomy_multicheck',
+),
+file - A file uploader. By default it will store the file url and allow either attachments or URLs. You can use the 'save_id' field to make it also store the attachment ID (useful for getting different image sizes). It will store it in $id . '_id', so if your field id is test_image the ID is stored in test_image_id. You can also limit it to only allowing attachments (can't manually type in a URL), which is also useful if you plan to use the attachment ID. The example shows its default values, with possible values commented inline. Example:
+
+array(
+	'name' => 'Test File',
+	'desc' => 'Upload an image or enter an URL.',
+	'id' => $prefix . 'test_image',
+	'type' => 'file',
+	'save_id' => false, // save ID using true
+	'allow' => array( 'url', 'attachment' ) // limit to just attachments with array( 'attachment' )
+),
+file_list - Displays all files attached to the post and has a file uploader. Example:
+
+array(
+	'name' => 'Test File List',
+	'desc' => '',
+	'id' => $prefix . 'file_list',
+	'type' => 'file_list',
+),
+oembed - Displays embedded media inline using WordPress' built-in oEmbed support. See codex.wordpress.org/Embeds for more info and for a list of embed services supported. (added in 0.9.1)
+
+array(
+	'name' => 'oEmbed',
+	'desc' => 'Enter a youtube, twitter, or instagram URL. Supports services listed at <a href="http://codex.wordpress.org/Embeds">http://codex.wordpress.org/Embeds</a>.',
+	'id' => $prefix . 'test_embed',
+	'type' => 'oembed',
+),
+Note: Text added in a oembed field will not automatically display the embed in your theme. To generate the embed in your theme, this is a method you could use:
+echo apply_filters( 'the_content', get_post_meta( get_the_ID(), $prefix . 'test_embed', true ) );
+Custom Field Types
+
+You can define your own field types as well.
+Last edited by Scott Lee, 3 months ago
+Status API Training Shop Blog About © 2013 GitHub, Inc. Terms Privacy Security Contact
