@@ -20,11 +20,8 @@ $the_query = new WP_Query(array(
 			<div class="col-md-5">
 				<h2 class="super-large-text"><?php echo get_post_meta( get_the_id(), 'case_study_info_increase', true ); ?></h2>
 				<div class="desc"><?php the_excerpt();?></div>
-				<a class="demo-link" href="<?php echo get_permalink(); ?>">Read Case Study
-					<svg class="tip" height="26" width="14">
-                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-            		</svg>
-				</a>
+				<?php echo get_demo_link('', get_permalink(),  __('Read Case Study')); ?>
+
 			</div>
 		</div>
 	</li>

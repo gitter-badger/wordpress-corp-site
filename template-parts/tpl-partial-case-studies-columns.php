@@ -3,12 +3,7 @@
 		<div class="section-title row">
 			<h2 class="title col-md-9"><?php _e('Case Studies'); ?></h2>
 			<div class="col-md-3 text-right">
-				<a class="demo-link yellow" href="<?php echo get_post_type_archive_link('case_study'); ?>">
-					<?php _e("See all case studies"); ?>
-					<svg class="tip" height="26" width="14">
-		        		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-		    		</svg>
-				</a>
+				<?php echo get_demo_link('yellow', get_post_type_archive_link('case_study'),  __('See all case studies')); ?>
 			</div>
 		</div>
 		<?php
