@@ -3,20 +3,28 @@ get_header(); ?>
 
 <div class="single-post-page">
 	<div id="content" class="row">
-		<div class="row sub-navigation">
-			<div class="container">
-				<?php $active = 'blog'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
-			</div>
-		</div>
+
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); ?>
-				<div class="row">
+				<div class="row theme_bg_light padd-row">
+					<div class="container">
+						<div class="col-md-12">
+							<nav class="breadcrumbs">
+								<a href="<?php echo site_url('/resources/blog');?>">
+									<?php _e('Blog'); ?>
+								</a>
+								<span class="seperator">&raquo;</span>
+								<span class="current"><?php echo substr(get_the_title(), 0,15); ?> [...] <?php echo substr(get_the_title(), -15); ?></span>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<div class="row theme_bg_white padd-row">
 					<div class="container">
 						<div class="col-md-9">
 							<h2 class="title"><?php the_title(); ?></h2>
 							<div class="main-image padd-row">
-								<?php the_post_thumbnail('video-large');?>
+								<?php the_post_thumbnail();?>
 							</div>
 							<div class="post-content">
 								<?php the_content(); ?>
