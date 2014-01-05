@@ -63,6 +63,9 @@ get_header(); ?>
 		<?php include(locate_template('template-parts/tpl-partial-news.php')); ?>
 		<?php include(locate_template('template-parts/tpl-partial-case-studies-columns.php')); ?>
 		<?php include(locate_template('template-parts/tpl-partial-white-papers.php')); ?>
+		<?php include(locate_template('template-parts/tpl-partial-faq.php')); ?>
+		<?php include(locate_template('template-parts/tpl-partial-posts.php')); ?>
+
 
 	</div>
 <?php get_footer(); ?>
