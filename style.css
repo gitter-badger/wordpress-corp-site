@@ -9894,6 +9894,14 @@ li {
   text-align: center;
 }
 
+.single-post-page .main-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  border: 10px solid #fff;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+}
+
 .sidebar .cat-item a:hover,
 .current-cat a{
   color: #EE7B21;
@@ -9920,6 +9928,22 @@ li {
   color: rgba(255,255,255,0.6);
 }
 
+
+.rainbow-list .question-icon-small {
+  float:left;
+  margin: 0 10px 0 0;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+  text-align: center;
+  line-height: 40px;
+  font-size: 30px;
+  color: #fff;
+  color: rgba(255,255,255,0.6);
+}
+
 .tag-cloud a,
 .categories a {
   display: inline-block;
@@ -9933,4 +9957,34 @@ li {
 
 .tag-cloud a {
   margin-bottom: 10px;
+}
+
+.tag-cloud .current-cloud-term {
+  background: #fff;
+  color: #5DC1B4;
+  border: 1px solid #5DC1B4;
+}
+
+.rainbow-list li:nth-child(1) .title {
+  color: #EE7B21;
+}
+
+.rainbow-list li:nth-child(1) .bg {
+  background-color: #EE7B21;
+}
+
+.rainbow-list li:nth-child(2) .title {
+  color: #FBC84E;
+}
+
+.rainbow-list li:nth-child(2) .bg {
+  background-color: #FBC84E;
+}
+
+.rainbow-list li:nth-child(3) .title {
+  color: #5DC1B4;
+}
+
+.rainbow-list li:nth-child(3) .bg {
+  background-color: #5DC1B4;
 }
