@@ -65,20 +65,47 @@ function get_ID_by_slug($page_slug) {
 }
 
 function limit_words($string, $word_limit) {
-
-    // creates an array of words from $string (this will be our excerpt)
-    // explode divides the excerpt up by using a space character
-
     $words = explode(' ', $string);
-
-    // this next bit chops the $words array and sticks it back together
-    // starting at the first word '0' and ending at the $word_limit
-    // the $word_limit which is passed in the function will be the number
-    // of words we want to use
-    // implode glues the chopped up array back together using a space character
-
     return implode(' ', array_slice($words, 0, $word_limit));
+}
 
+function get_pagination($queryObject, $format) {
+    $paging = paginate_links( array(
+        'base' => str_replace( 90, '%#%', esc_url( get_pagenum_link( 90 ) ) ),
+        'format' => '?'.$format.'=%#%',
+        'current' => max( 1, get_query_var('paged') ),
+        'total' => $queryObject->max_num_pages
+    ) );
+    return $paging;
+}
+
+
+function get_sticky_posts($postsPerPage) {
+    $sticky = get_option( 'sticky_posts' );
+    $q = new WP_Query(array(
+        'post_type' => 'post',
+        'posts_per_page' => $postsPerPage,
+        'post__in' => $sticky
+    ));
+    return $q;
+}
+
+function get_all_posts($postsPerPage) {
+    $sticky = get_option( 'sticky_posts' );
+    $q = new WP_Query(array(
+        'post_type' => 'post',
+        'posts_per_page' => $postsPerPage,
+        'post__not_in' => $sticky
+    ));
+    return $q;
+}
+
+function get_demo_link($className, $link, $text) {
+    $buff = '<a class="demo-link ' . $className . '" href="' . $link . '">' . $text;
+        $buff .= '<svg class="tip" height="26" width="14">';
+        $buff .= '<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/></svg>';
+    $buff .= '</a>';
+    return $buff;
 }
 
 /**
@@ -90,13 +117,61 @@ function set_widgets_init() {
     register_sidebar( array(
         'name' => 'Blog sidebar',
         'id' => 'blog_sidebar',
-        'before_widget' => '<div>',
+        'before_widget' => '<div class="widget">',
         'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
+        'before_title' => '<h2 class="title">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Pages custom navigation',
+        'id' => 'pages_custom_navigation',
+        'before_widget' => '<div class="widget">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="title">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'General page sidebar',
+        'id' => 'general_page_sidebar',
+        'before_widget' => '<div class="widget">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="title">',
+        'after_title' => '</h2>',
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Footer Left sidebar',
+        'id' => 'footer_left_sidebar',
+        'before_widget' => '<div class="widget">',
+        'after_widget' => '</div>',
+        'before_title' => '<h2 class="title">',
         'after_title' => '</h2>',
     ) );
 }
 add_action( 'widgets_init', 'set_widgets_init' );
+
+
+function tag_cloud_highlight($cloud){
+
+
+    if(!is_tax('label')) {
+        return $cloud;
+    }
+    $terms = get_terms('label');
+    if(!$terms) {
+        return $cloud;
+    }
+    foreach($terms as $category) {
+        if(is_tax('label',$category->slug)) {
+            $cloud = str_replace("tag-link-$category->term_id", "current-cloud-term tag-link-$category->term_id",$cloud);
+        }
+    }
+    return $cloud;
+}
+
+add_filter('wp_tag_cloud','tag_cloud_highlight');
 
 
 require_once('includes/shortcodes.php');
