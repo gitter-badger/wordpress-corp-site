@@ -1,14 +1,6 @@
 <?php get_header(); ?>
 
-	<?php
-		$sticky = get_option( 'sticky_posts' );
-		$postsPerPage = 2;
-		$q = new WP_Query(array(
-			'post_type' => 'post',
-			'posts_per_page' => $postsPerPage,
-			'post__in' => $sticky
-		));
-	?>
+	<?php $q = get_sticky_posts(2); ?>
 	<div class="featured-blog-posts">
 		<div class="row padd-row theme_bg_darker">
 			<div class="container">
@@ -26,13 +18,7 @@
 							</a>
 							<h5 class="the-time">uploaded on: <?php the_time('M d, Y');?></h5>
 							<h4 class="title"><?php the_title(); ?></h4>
-							<div>
-								<a class="demo-link pink" href="<?php echo get_permalink(); ?>"><?php _e('View'); ?>
-									<svg class="tip" height="26" width="14">
-				                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-				            		</svg>
-								</a>
-							</div>
+							<div><?php echo get_demo_link('pink', get_permalink(), __('View')); ?></div>
 						</div>
 				<?php endwhile; ?>
 			<?php endif; ?>
@@ -51,15 +37,25 @@
 		</div>
 	</div>
 
+
 	<?php
+
 		$cssClasses = array('pink', 'orange', 'yellow', 'teal');
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-		$postsPerPage = 12;
-		$postsPerRow = 4;
+		$label = (get_query_var('label')) ? get_query_var('label') : '';
+		$postsPerPage = 3;
 		$q = new WP_Query(array(
 			'post_type' => 'faq',
 			'posts_per_page' => $postsPerPage,
 			'paged'=>$paged,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'label',
+					'field' => 'slug',
+					'terms' => array($label)
+				)
+			)
+
 		));
 	?>
 	<div class="faq-list">
@@ -76,30 +72,20 @@
 							<div class="faq-item col-md-10 faq-row">
 								<h4 class="title question toggler <?php echo $cssClasses[$cssClassIndex];?>"><?php the_title(); ?></h4>
 								<div class="answer"><?php the_excerpt(); ?></div>
-								<div>
-									<a class="demo-link <?php echo $cssClasses[$cssClassIndex];?>" href="<?php echo get_permalink(); ?>">Read More
-										<svg class="tip" height="26" width="14">
-					                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-					            		</svg>
-									</a>
-								</div>
-
+								<div><?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(), __('Read More')); ?></div>
 							</div>
 					<?php $index += 1; endwhile; ?>
 					<?php endif; ?>
+
 					<div class="pagination center-block">
-					<?php echo paginate_links( array(
-						'base' => str_replace( 90, '%#%', esc_url( get_pagenum_link( 90 ) ) ),
-						'format' => '?faq=%#%',
-						'current' => max( 1, get_query_var('paged') ),
-						'total' => $q->max_num_pages
-					) );?>
-			</div><!-- #post-navigation -->
+							<?php echo get_pagination($q, 'label'); ?>
+					</div><!-- #post-navigation -->
+
 				</div>
 				<div class="col-md-3 sidebar">
 					<div class="tag-cloud">
 						<?php wp_tag_cloud( array(
-							'taxonomy' => 'faq',
+							'taxonomy' => 'label',
 							'format' => 'flat',
 							'smallest'  => 14,
 	    					'largest' => 14,
