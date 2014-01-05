@@ -17,10 +17,8 @@ get_header(); ?>
 		<?php endif; ?>
 		<div class="row sub-navigation">
 			<div class="container">
-				<ul id="links" class="nav center-block">
-					<li class="menu-item"><a href="#strengths" class="smoothScroll">link 1</a></li>
-					<li class="menu-item"><a href="#differences" class="smoothScroll">link 2</a></li>
-					<li class="menu-item"><a href="#case-studies" class="smoothScroll">link 3</a></li>
+				<ul class="nav center-block">
+					<?php if ( ! dynamic_sidebar( 'General page sidebar' ) ) {}?>
 				</ul>
 			</div>
 		</div>
