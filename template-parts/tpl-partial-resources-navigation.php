@@ -1,18 +1,18 @@
 
 <?php $active = isset($active) ? $active: ''; ?>
 <ul id="links" class="nav center-block">
-	<li class="menu-item">
-		<a href="<?php echo site_url('/resources#news');?>" class="smoothScroll">
+	<li class="menu-item <?php echo $active == 'news' ? 'current-menu-item': '' ?>">
+		<a href="<?php echo get_post_type_archive_link('news'); ?>" class="smoothScroll">
 			<?php _e('News'); ?>
 		</a>
 	</li>
-	<li class="menu-item">
-		<a href="<?php echo site_url('/resources#case-studies');?>" class="smoothScroll">
+	<li class="menu-item <?php echo $active == 'case-study' ? 'current-menu-item': '' ?>">
+		<a href="<?php echo get_post_type_archive_link('case_study'); ?>" class="smoothScroll">
 			<?php _e('Case Studies'); ?>
 		</a>
 	</li>
-	<li class="menu-item">
-		<a href="<?php echo site_url('/resources#white-papers');?>" class="smoothScroll">
+	<li class="menu-item <?php echo $active == 'white-paper' ? 'current-menu-item': '' ?>">
+		<a href="<?php echo get_post_type_archive_link('white_paper'); ?>" class="smoothScroll">
 			<?php _e('White Papers'); ?>
 		</a>
 	</li>

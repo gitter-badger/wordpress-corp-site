@@ -26,11 +26,8 @@
 		<div class="row">
 			<div class="join-us col-md-12">
 				<h3><?php _e('Interested in joining our team?'); ?></h3>
-				<a class="demo-link pink" href="<?php echo '#' ?>"><?php _e('Careers'); ?>
-					<svg class="tip" height="26" width="14">
-	            		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-	        		</svg>
-				</a>
+				<?php echo get_demo_link('pink', '#',  __('Careers')); ?>
+
 			</div>
 		<?php wp_reset_postdata(); ?>
 		</div>

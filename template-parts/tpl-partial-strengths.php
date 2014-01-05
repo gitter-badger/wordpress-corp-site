@@ -58,11 +58,8 @@ $the_query = new WP_Query(array(
 					<div class="text">
 						<?php the_content(); ?>
 					</div>
-					<a class="demo-link orange" href="<?php echo get_permalink(); ?>">Read more
-						<svg class="tip" height="26" width="14">
-	                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-	            		</svg>
-					</a>
+					<?php echo get_demo_link('orange', '#',  __('Read more')); ?>
+
 				</div>
 				<div class="col-md-6 text-center">
 					<?php the_post_thumbnail();?>

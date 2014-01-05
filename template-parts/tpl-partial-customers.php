@@ -23,13 +23,9 @@
 				<li class="item col-md-3">
 					<div class="customer-logo display-cell">
 						<img src="<?php echo $defaultLogo; ?>"/></div>
-					<?php if(!empty($caseStudyURL)): ?>
-						<a class="demo-link <?php echo $readMoreClass; ?>" href="<?php echo $caseStudyURL; ?>">Read Case Study
-							<svg class="tip" height="26" width="14">
-		                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-		            		</svg>
-						</a>
-					<?php endif; ?>
+						<?php if(!empty($caseStudyURL)): ?>
+							<?php echo get_demo_link($readMoreClass, $caseStudyURL,  __('Read Case Study')); ?>
+						<?php endif; ?>
 				</li>
 			<?php $index += 1; endwhile; ?>
 		<?php endif; ?>

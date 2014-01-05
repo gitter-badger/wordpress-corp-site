@@ -24,11 +24,8 @@
 										<div class="desc"><?php the_excerpt();?></div>
 									</div>
 									<div class="col-md-2">
-										<a class="demo-link <?php echo $readMoreClass; ?>" href="<?php echo get_permalink(); ?>"><?php _e('Learn more'); ?>
-											<svg class="tip" height="26" width="14">
-						                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-						            		</svg>
-										</a>
+										<?php echo get_demo_link($readMoreClass, get_permalink(),  __('Learn more')); ?>
+
 									</div>
 								</li>
 							<?php endwhile; ?>
