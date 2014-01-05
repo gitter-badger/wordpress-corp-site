@@ -26,13 +26,8 @@
 							</a>
 							<h5 class="the-time">uploaded on: <?php the_time('M d, Y');?></h5>
 							<h4 class="title"><?php the_title(); ?></h4>
-							<div>
-								<a class="demo-link pink" href="<?php echo get_permalink(); ?>"><?php _e('View'); ?>
-									<svg class="tip" height="26" width="14">
-				                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-				            		</svg>
-								</a>
-							</div>
+							<div><?php echo get_demo_link('pink', get_permalink(), __('View')); ?></div>
+
 						</div>
 				<?php endwhile; ?>
 			<?php endif; ?>
@@ -54,7 +49,7 @@
 	<?php
 		$cssClasses = array('pink', 'orange', 'yellow', 'teal');
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-		$postsPerPage = 12;
+		$postsPerPage = 3;
 		$postsPerRow = 4;
 		$q = new WP_Query(array(
 			'post_type' => 'faq',
@@ -76,13 +71,7 @@
 							<div class="faq-item col-md-10 faq-row">
 								<h4 class="title question toggler <?php echo $cssClasses[$cssClassIndex];?>"><?php the_title(); ?></h4>
 								<div class="answer"><?php the_excerpt(); ?></div>
-								<div>
-									<a class="demo-link <?php echo $cssClasses[$cssClassIndex];?>" href="<?php echo get_permalink(); ?>">Read More
-										<svg class="tip" height="26" width="14">
-					                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-					            		</svg>
-									</a>
-								</div>
+								<div><?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(), __('Read More')); ?></div>
 
 							</div>
 					<?php $index += 1; endwhile; ?>
