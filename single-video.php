@@ -86,13 +86,8 @@ get_header();
 						</a>
 						<h5 class="the-time dimmed">uploaded on: <?php the_time('M d, Y');?></h5>
 						<h4 class="subtitle"><?php the_title(); ?></h4>
-						<div>
-							<a class="demo-link orange" href="<?php echo get_permalink(); ?>"><?php _e('View'); ?>
-								<svg class="tip" height="26" width="14">
-			                		<polygon points="0,27 0,27 0,0 0,0 10.084,13.213"/>
-			            		</svg>
-							</a>
-						</div>
+						<div><?php echo get_demo_link('orange', get_permalink(), __('View')); ?></div>
+
 					</div>
 			<?php $index += 1; endwhile; ?>
 		<?php endif; ?>
@@ -101,12 +96,7 @@ get_header();
 	</div>
 		<div class="row">
 			<div class="pagination center-block">
-				<?php echo paginate_links( array(
-					'base' => str_replace( 90, '%#%', esc_url( get_pagenum_link( 90 ) ) ),
-					'format' => '?video=%#%',
-					'current' => max( 1, get_query_var('paged') ),
-					'total' => $q->max_num_pages
-				) );?>
+					<?php echo get_pagination($q, 'video'); ?>
 			</div><!-- #post-navigation -->
 		</div>
 
