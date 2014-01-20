@@ -93,11 +93,7 @@ get_header();
 			</div>
 		</div>
 	</div>
-		<div class="">
-			<div class="pagination center-block">
-					<?php echo get_pagination($q, 'video'); ?>
-			</div><!-- #post-navigation -->
-		</div>
+	<?php echo get_pagination_html($q, 'video'); ?>
 
 
 

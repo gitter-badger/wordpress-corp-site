@@ -55,7 +55,7 @@
 	?>
 
 	<?php
-		$postsPerPage = 12;
+		$postsPerPage = 8;
 		$postsPerRow = 4;
 		$q = new WP_Query(array(
 			'post_type' => 'video',
@@ -65,7 +65,12 @@
 		));
 	?>
 
-	<div class="more-videos">
+	<div class="more-videos section">
+		<div class="section-title">
+			<div class="container">
+				<h2 class="title col-md-12"><?php _e('Videos'); ?></h2>
+			</div>
+		</div>
 
 		<?php if ( $q->have_posts() ) : ?>
 			<?php $index = 0; while ( $q->have_posts() ) : $q->the_post(); ?>
@@ -101,9 +106,6 @@
 		</div>
 	</div>
 
-	<div class="">
-		<div class="pagination center-block">
-				<?php echo get_pagination($q, 'video'); ?>
-		</div><!-- #post-navigation -->
-	</div>
+	<?php echo get_pagination_html($q, 'video'); ?>
+
 <?php get_footer(); ?>
