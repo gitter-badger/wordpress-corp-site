@@ -62,7 +62,12 @@ get_header(); ?>
 		'child' => __('Blog')
 	));
 	?>
-	<div class="theme_bg_lighter">
+	<div class="theme_bg_lighter section">
+		<div class="section-title">
+			<div class="container">
+				<h2 class="title col-md-12"><?php _e('Blog'); ?></h2>
+			</div>
+		</div>
 		<div class="container">
 			<div class="padd-row posts">
 				<div class="col-md-9">

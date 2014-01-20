@@ -47,7 +47,7 @@ get_header(); ?>
 $cat = get_category( get_query_var( "cat" ) );
 //site_url('/category/') . $cat->slug , 'title' => $cat->name)
 breadcrumbs(array(
-	'theme' => 'theme_bg_lighter',
+	'theme' => 'theme_bg_dark',
 	'trail' => array(
 		array('url' => site_url('/'), 'title' => __('Home')),
 		array('url' => site_url('/blog'), 'title' => __('Blog')),
@@ -55,6 +55,7 @@ breadcrumbs(array(
 	'child' => $cat->name
 ));
 ?>
+
 <?php
 	$sticky = get_option( 'sticky_posts' );
 	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -66,7 +67,12 @@ breadcrumbs(array(
         'cat' => $cat->term_id
     ));
     ?>
-	<div class="row theme_bg_lighter">
+	<div class="row theme_bg_lighter section">
+		<div class="section-title">
+			<div class="container">
+				<h2 class="title col-md-12"><?php echo $cat->name . ' '. __('Posts');?></h2>
+			</div>
+		</div>
 		<div class="container">
 			<div class="row padd-row posts">
 				<div class="col-md-9">
