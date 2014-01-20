@@ -18,9 +18,11 @@ $the_query = new WP_Query(array(
 	<div class="container">
 
 		<ul class="">
+		<?php $featuredDatasheets = array(); ?>
 		<?php $post_idx = 1; while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
 			<?php $icon_idle_url = get_post_meta( $post->ID, '_cmb_icon_off', true );?>
 			<?php $icon_active_url = get_post_meta( $post->ID, '_cmb_icon_on', true );?>
+			<?php array_push($featuredDatasheets, $post->ID);?>
 			<style>
 				.data-sheets .icon-<?php echo $post_idx; ?> {
 					background: url('<?php echo $icon_idle_url; ?>') no-repeat;
@@ -67,15 +69,10 @@ $the_query = new WP_Query(array(
 				<div class="col-md-6">
 					<h2 class="title"><?php the_title(); ?></h2>
 					<div class="text">
-						<?php the_excerpt(); ?>
+						<?php  global $more; $more = 0; the_content(); ?>
 					</div>
-					<?php echo get_demo_link('pink', '#',  __('Read more')); ?>
-
+					<?php echo get_demo_link('pink', get_permalink(),  __('Read more')); ?>
 				</div>
-				<div class="col-md-6 text-center">
-					<?php the_post_thumbnail();?>
-				</div>
-
 			</div>
 		</div>
 	</div>
@@ -84,10 +81,19 @@ $the_query = new WP_Query(array(
 	</div>
 </div>
 
+
+<?php
+$q = new WP_Query(array(
+	'post_type' => 'data_sheets',
+	'posts_per_page' => '3',
+	'post__not_in' => $featuredDatasheets
+));
+?>
+<?php if ( $q->have_posts() ) : ?>
 <div id="data-sheets" class="theme_bg_white section">
 	<div class="section-title">
 		<div class="container">
-			<h2 class="title col-md-9"><?php _e('Latest Data Sheets'); ?></h2>
+			<h2 class="title col-md-9"><?php _e('More Data Sheets'); ?></h2>
 			<div class="col-md-3 text-right">
 				<?php echo get_demo_link('orange', site_url('/resources/data-sheets'), __('See all data sheets')); ?>
 
@@ -96,15 +102,9 @@ $the_query = new WP_Query(array(
 	</div>
 	<div class="container">
 
-		<?php
-			$q = new WP_Query(array(
-				'post_type' => 'data_sheets',
-				'posts_per_page' => '3',
-			));
 
-		?>
-		<ul class="white-papers-list">
-		<?php if ( $q->have_posts() ) : ?>
+		<ul class="data-sheets-list">
+
 			<?php while ( $q->have_posts() ) : $q->the_post(); $postId = $post->ID ?>
 			<?php $cssClass = get_post_meta( $post->ID, '_cmb_read_more_color', true ); ?>
 				<li class="item col-md-4 hover-<?php echo $cssClass; ?>">
@@ -117,8 +117,9 @@ $the_query = new WP_Query(array(
 					</div>
 				</li>
 			<?php endwhile; ?>
-		<?php endif; ?>
+
 		</ul>
 		<?php wp_reset_postdata(); ?>
 	</div>
 </div>
+<?php endif; ?>
