@@ -3,11 +3,13 @@
 Template Name: About
 */
 get_header(); ?>
-	<div id="content" class="row about-page">
+	<div id="content" class="about-page">
+		<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); $postId = $post->ID ?>
-			<div id="about" class="row theme_bg_lighter">
-				<div class="container">
+
+
 					<?php
 					$mainImageUrl = get_post_meta( $postId, '_cmb_main_image', true );
 					$mainImageText = get_post_meta( $postId, '_cmb_main_text', true );
@@ -15,29 +17,34 @@ get_header(); ?>
 					$storyText = get_post_meta( $postId, '_cmb_story_text', true );
 					$citation = get_post_meta( $postId, '_cmb_story_citation', true );
 					?>
-					<div class="intro" style="background-image: url(<?php echo $mainImageUrl; ?>);">
-						<div class="text">
-							<?php echo $mainImageText;?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row sub-navigation">
+
+
+			<div class="sub-navigation">
 				<div class="container">
 					<ul id="links" class="nav center-block">
 						<li class="menu-item"><a href="#team" class="smoothScroll"><?php _e('Team'); ?></a></li>
 						<li class="menu-item"><a href="#customers" class="smoothScroll"><?php _e('Customers'); ?></a></li>
 						<li class="menu-item"><a href="#partners" class="smoothScroll"><?php _e('Partners'); ?></a></li>
-						<li class="menu-item"><a href="#careers" class="smoothScroll"><?php _e('Careers'); ?></a></li>
+						<li class="menu-item"><a href="<?php echo site_url('/about/careers'); ?>" class="smoothScroll"><?php _e('Careers'); ?></a></li>
 					</ul>
 				</div>
 			</div>
+			<?php
+				breadcrumbs(array(
+					'theme' => 'theme_bg_dark',
+					'trail' => array(
+						array('url' => site_url('/'), 'title' => __('Home')),
+					),
+					'child' => __('About')
+				));
+			?>
+			<div class="theme_bg_light section story-section">
 
-			<div class="row theme_bg_darker section story-section">
 				<div class="container">
 					<div class="col-md-6">
 						<div class="citation">
-							<div class="image"><img src="<?php echo $storyImage; ?>"/></div>
+
+							<div class="single-executive-member image"><img src="<?php echo $storyImage; ?>"/></div>
 							<div class="text"><?php echo $citation; ?></div>
 						</div>
 					</div>

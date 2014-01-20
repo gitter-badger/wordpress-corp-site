@@ -32,7 +32,16 @@ class Custom_Post_Type
 		{
 			//Capitilize the words and make it plural
 			$name 		= ucwords( str_replace( '_', ' ', $this->post_type_name ) );
-			$plural 	= $name . 's';
+			$plural = $name;
+			if (substr($name, -1) != 's') {
+				$plural = $name . 's';
+			}
+
+			if (substr($name, -1) == 'y') {
+				$plural = $name . 'ies';
+			}
+
+
 
 			// We set the default labels based on the post type name and plural. We overwrite them with the given labels.
 			$labels = array_merge(
@@ -45,7 +54,7 @@ class Custom_Post_Type
 					'add_new_item' 			=> __( 'Add New ' . $name ),
 					'edit_item' 			=> __( 'Edit ' . $name ),
 					'new_item' 				=> __( 'New ' . $name ),
-					'all_items' 			=> __( 'All ' . $plural ),
+					'all_items' 			=> __( '»  ' . $plural ),
 					'view_item' 			=> __( 'View ' . $name ),
 					'search_items' 			=> __( 'Search ' . $plural ),
 					'not_found' 			=> __( 'No ' . strtolower( $plural ) . ' found'),

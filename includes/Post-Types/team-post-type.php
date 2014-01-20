@@ -2,6 +2,7 @@
 
 	$team = new Custom_Post_Type('team member', array(
 		'supports' => array('title'),
+		'show_in_menu' => 'convertro_settings',
 	));
 
 
@@ -37,7 +38,7 @@
 	                    'desc' => __('500 characters maximum.','cmb'),
 	                    'id'      => $prefix . 'member_job_description',
 	                    'type'    => 'wysiwyg',
-	                    'options' => array('textarea_rows' => 5, 'media_buttons' => false, 'teeny' => true, ),
+	                    'options' => array('textarea_rows' => 10, 'media_buttons' => false),
 	            ),
 				array(
                     'name' => 'Group',

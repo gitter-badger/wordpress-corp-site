@@ -6,9 +6,9 @@ $the_query = new WP_Query(array(
 	'posts_per_page' => '3'
 ));
 ?>
-<div id="strengths" class="strengths tabs">
+<div id="strengths" class="strengths tabs theme_bg_darker">
 	<div class="container">
-		<ul class="list">
+		<ul class="">
 		<?php $post_idx = 1; while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
 			<?php $icon_idle_url = get_post_meta( $post->ID, '_cmb_icon_off', true );?>
 			<?php $icon_active_url = get_post_meta( $post->ID, '_cmb_icon_on', true );?>
@@ -28,9 +28,11 @@ $the_query = new WP_Query(array(
 				}
 			?>
 			<li class="item col-md-4 <?php echo $strengthClass; ?>">
-				<svg class="tip" height="20" width="20">
-				  <polygon points="0,0 20,0 10,10" style="fill:#ef7c22;" />
-				</svg>
+				<div class="tip">
+					<svg class="" height="20" width="20">
+					  <polygon points="0,0 20,0 10,10" style="fill:#ef7c22;" />
+					</svg>
+				</div>
 				<div class="icon icon-<?php echo $post_idx; ?>"></div>
 				<h2 class="title"><?php the_title(); ?></h2>
 				<div class="desc"><?php the_excerpt();?></div>
@@ -50,9 +52,8 @@ $the_query = new WP_Query(array(
 				$strengthClass = 'active';
 			}
 		?>
-	<div class="row strengths strengths content <?php echo $strengthClass; ?>">
+	<div class="theme_bg_light tabs-content <?php echo $strengthClass; ?>">
 		<div class="container">
-			<div class="row">
 				<div class="col-md-6">
 					<h2 class="title"><?php the_title(); ?></h2>
 					<div class="text">
@@ -64,8 +65,6 @@ $the_query = new WP_Query(array(
 				<div class="col-md-6 text-center">
 					<?php the_post_thumbnail();?>
 				</div>
-
-			</div>
 		</div>
 	</div>
 	<?php $post_idx += 1; ?>

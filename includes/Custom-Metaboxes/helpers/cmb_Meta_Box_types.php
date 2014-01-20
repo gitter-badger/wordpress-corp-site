@@ -380,6 +380,7 @@ class cmb_Meta_Box_types {
 	}
 
 	public static function wysiwyg( $field, $meta ) {
+		$field['options']['wpautop'] = false;
 		wp_editor( $meta ? $meta : $field['std'], $field['id'], isset( $field['options'] ) ? $field['options'] : array() );
 		echo self::desc( $field['desc'], true );
 	}

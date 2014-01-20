@@ -15,7 +15,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 		<?php endif; ?>
-		<div class="row sub-navigation">
+		<div class="sub-navigation">
 			<div class="container">
 				<ul class="nav center-block">
 					<?php if ( ! dynamic_sidebar( 'General page sidebar' ) ) {}?>

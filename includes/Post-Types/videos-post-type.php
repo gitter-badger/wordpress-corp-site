@@ -3,7 +3,8 @@
 	$videos = new Custom_Post_Type('video', array(
 		'supports' => array('title', 'editor', 'thumbnail'),
 		'has_archive' => true,
-		'rewrite' => array('slug' => 'video')
+		'show_in_menu' => 'convertro_settings',
+		'rewrite' => array('slug' => 'resources/video')
 	));
 
 

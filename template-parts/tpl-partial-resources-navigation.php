@@ -2,22 +2,22 @@
 <?php $active = isset($active) ? $active: ''; ?>
 <ul id="links" class="nav center-block">
 	<li class="menu-item <?php echo $active == 'news' ? 'current-menu-item': '' ?>">
-		<a href="<?php echo get_post_type_archive_link('news'); ?>" class="smoothScroll">
+		<a href="<?php echo site_url('/resources/news');?>" class="smoothScroll">
 			<?php _e('News'); ?>
 		</a>
 	</li>
 	<li class="menu-item <?php echo $active == 'case-study' ? 'current-menu-item': '' ?>">
-		<a href="<?php echo get_post_type_archive_link('case_study'); ?>" class="smoothScroll">
+		<a href="<?php echo site_url('/resources/case-studies');?>" class="smoothScroll">
 			<?php _e('Case Studies'); ?>
 		</a>
 	</li>
 	<li class="menu-item <?php echo $active == 'white-paper' ? 'current-menu-item': '' ?>">
-		<a href="<?php echo get_post_type_archive_link('white_paper'); ?>" class="smoothScroll">
+		<a href="<?php echo site_url('/resources/white-paper');?>" class="smoothScroll">
 			<?php _e('White Papers'); ?>
 		</a>
 	</li>
 	<li class="menu-item <?php echo $active == 'faq' ? 'current-menu-item': '' ?>">
-		<a href="<?php echo get_post_type_archive_link('faq'); ?>">
+		<a href="<?php echo site_url('/resources/faq');?>">
 			<?php _e('Faq'); ?>
 		</a>
 	</li>

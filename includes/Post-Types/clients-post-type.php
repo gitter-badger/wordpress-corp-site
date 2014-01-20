@@ -1,7 +1,9 @@
 <?php
 
 	$clients = new Custom_Post_Type('client', array(
-		'supports' => array('title')
+		'supports' => array('title'),
+		'show_in_menu' => 'convertro_settings',
+		'rewrite' => array('slug' => 'clients')
 	));
 
 	add_filter( 'cmb_meta_boxes', 'cmb_clients_metaboxes' );

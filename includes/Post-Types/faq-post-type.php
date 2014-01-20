@@ -2,7 +2,8 @@
 
 	$faq = new Custom_Post_Type('faq', array(
 		'supports' => array('title','editor', 'excerpt', 'thumbnail'),
-		'has_archive' => true,
+		'show_in_menu' => 'convertro_settings',
+		'rewrite' => array('slug' => 'resources/faq')
 	));
 
 	$faq->add_taxonomy('label');

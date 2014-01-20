@@ -2,7 +2,8 @@
 
 	$caseStudies = new Custom_Post_Type('case study', array(
 		'supports' => array('title','editor', 'excerpt', 'thumbnail'),
-		'has_archive' => true,
+		'show_in_menu' => 'convertro_settings',
+		'rewrite' => array('slug' => 'case-studies')
 	));
 	$caseStudies->add_meta_box(
 		'Case Study Info',
@@ -21,12 +22,18 @@
 
 	    $meta_boxes['case_study_metabox'] = array(
 	        'id'         => 'case_study_meta',
-	        'title'      => __( 'Icons', 'cmb' ),
+	        'title'      => __( 'Files', 'cmb' ),
 	        'pages'      => array( 'case_study', ),
 	        'context'    => 'normal',
 	        'priority'   => 'high',
 	        'show_names' => true,
 	        'fields'     => array(
+	        	array(
+	                    'name' => __( 'Pdf', 'cmb' ),
+	                    'desc' => __( 'Upload a pdf OR paste a link', 'cmb' ),
+	                    'id'   => $prefix . 'pdf',
+	                    'type' => 'file',
+	            ),
 	            array(
 	                    'name' => __( 'Icon', 'cmb' ),
 	                    'desc' => __( 'Upload an icon', 'cmb' ),

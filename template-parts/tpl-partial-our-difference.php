@@ -1,10 +1,11 @@
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); ?>
 	<?php $text = get_post_meta( $post->ID, '_cmb_hp_our_differences', true ); ?>
-			<div id="differences" class="differences row">
+			<div id="differences" class="differences padd-row">
 				<div class="container">
 					<div class="col-md-12">
-						<div class="text">
+
+						<div class="text differences-intro">
 							<?php echo $text; ?>
 						</div>
 						<?php $the_query = new WP_Query(array(
@@ -12,7 +13,7 @@
 						));
 						?>
 						<div>
-							<ul class="list">
+							<ul class="">
 							<?php while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
 							<?php $readMoreClass = get_post_meta( $post->ID,'_cmb_read_more_color', true); ?>
 								<li class="list-item row">
@@ -33,6 +34,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			<?php wp_reset_postdata(); ?>
 	<?php endwhile; ?>
 <?php endif; ?>

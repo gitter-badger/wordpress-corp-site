@@ -26,9 +26,7 @@
 		</div>
 	</div>
 
-
-
-	<div class="row sub-navigation">
+	<div class="sub-navigation">
 		<div class="container">
 			<div class="col-md-12">
 				<?php $active = 'faq'; ?>
@@ -59,30 +57,10 @@
 		));
 	?>
 	<div class="faq-list">
-		<div class="row padd-row">
-			<div class="container">
-				<div class="col-md-9">
-
-				<?php if ( $q->have_posts() ) : ?>
-					<?php $index = 4; while ( $q->have_posts() ) : $q->the_post(); ?>
-					<?php $cssClassIndex = $index % 4; ?>
-							<div class="col-md-2 faq-icon faq-row">
-								<span class="question-icon bg-<?php echo $cssClasses[$cssClassIndex];?>">?</span>
-							</div>
-							<div class="faq-item col-md-10 faq-row">
-								<h4 class="title question toggler <?php echo $cssClasses[$cssClassIndex];?>"><?php the_title(); ?></h4>
-								<div class="answer"><?php the_excerpt(); ?></div>
-								<div><?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(), __('Read More')); ?></div>
-							</div>
-					<?php $index += 1; endwhile; ?>
-					<?php endif; ?>
-
-					<div class="pagination center-block">
-							<?php echo get_pagination($q, 'label'); ?>
-					</div><!-- #post-navigation -->
-
-				</div>
-				<div class="col-md-3 sidebar">
+		<div class="row theme_bg_lighter section">
+			<div class="section-title">
+				<div class="container">
+					<h2 class="title col-md-12"><?php _e('Frequently Asked Questions'); ?></h2>
 					<div class="tag-cloud">
 						<?php wp_tag_cloud( array(
 							'taxonomy' => 'label',
@@ -94,7 +72,36 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<?php if ( $q->have_posts() ) : ?>
+					<ul>
+					<?php $index = 4; while ( $q->have_posts() ) : $q->the_post(); ?>
+					<?php $cssClassIndex = $index % 4; ?>
+						<li>
+							<div class="row">
+								<div class="container">
+
+									<div class="col-md-2 faq-icon faq-row">
+										<span class="question-icon <?php echo $COLOR_CLASSES[$cssClassIndex];?>">?</span>
+									</div>
+									<div class="faq-item col-md-10 faq-row">
+										<h4 class="title question toggler <?php echo $COLOR_CLASSES[$cssClassIndex];?>"><?php the_title(); ?></h4>
+										<div class="answer">
+											<?php the_excerpt(); ?></div>
+										<div><?php echo get_demo_link($COLOR_CLASSES[$cssClassIndex], get_permalink(), __('Read More')); ?>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="seperator-horizontal"></li>
+					<?php $index += 1; endwhile; ?>
+					</ul>
+					<?php endif; ?>
+			</div>
 		</div>
+		<?php echo get_pagination_html($q, 'faq'); ?>
 	</div>
 
 <?php get_footer(); ?>

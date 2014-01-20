@@ -1,7 +1,8 @@
 <?php
 
 	$partners = new Custom_Post_Type('partner', array(
-		'supports' => array('title')
+		'supports' => array('title'),
+		'show_in_menu' => 'convertro_settings',
 	));
 
 	add_filter( 'cmb_meta_boxes', 'cmb_partners_metaboxes' );

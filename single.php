@@ -2,41 +2,89 @@
 get_header(); ?>
 
 <div class="single-post-page">
-	<div id="content" class="row">
+
+
+	<div id="content" class="">
 
 		<?php if ( have_posts() ) : ?>
-			<?php while ( have_posts() ) : the_post(); ?>
-				<div class="row theme_bg_light padd-row">
+			<?php while ( have_posts() ) : the_post(); $globalPostId = $post->ID; ?>
+
+			<?php
+				breadcrumbs(array(
+					'theme' => 'theme_bg_dark',
+					'trail' => array(
+						array('url' => site_url('/'), 'title' => __('Home')),
+						array('url' => site_url('/resources/blog'), 'title' => __('Blog'))
+					),
+					'child' => substr(get_the_title(), 0,15) .' [...] ' . substr(get_the_title(), -15)
+				));
+			?>
+			<div class="section">
+				<div class="section-title">
 					<div class="container">
-						<div class="col-md-12">
-							<nav class="breadcrumbs">
-								<a href="<?php echo site_url('/resources/blog');?>">
-									<?php _e('Blog'); ?>
-								</a>
-								<span class="seperator">&raquo;</span>
-								<span class="current"><?php echo substr(get_the_title(), 0,15); ?> [...] <?php echo substr(get_the_title(), -15); ?></span>
-							</nav>
+						<h2 class="title col-md-12"><h2 class="title"><?php the_title(); ?></h2></h2>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="theme_bg_lighter">
+				<div class="container">
+					<div class="col-md-9 post-content">
+						<div class="posts-links row">
+							<?php $next = get_next_post(); ?>
+							<?php $prev = get_previous_post(); ?>
+							<?php if (isset($next->ID)) :?>
+								<span class="next-post-link text-right">
+									<?php echo get_demo_link('yellow', get_permalink($next->ID), __('Newer posts')); ?>
+								</span>
+							<?php endif; ?>
+							<?php if (isset($prev->ID)) :?>
+								<span class="prev-post-link text-left">
+	<?php echo get_demo_link('yellow', get_permalink($prev->ID), __('Older Posts'), array('icon' => false, 'isFlipped' => true)); ?>
+								</span>
+							<?php endif; ?>
+
+						</div>
+						<div class="post-content">
+							<?php the_content(); ?>
+						</div>
+					</div>
+					<div class="col-md-3 sidebar">
+						<?php
+						if ( ! dynamic_sidebar( 'Blog Post sidebar' ) ) {
+						}?>
+
+						 <div class="widget">
+							<h2 class="title"><?php _e('Related Posts'); ?></h2>
+
+						<?php
+							$tagsList = tags_object_to_tags_ids(get_the_tags());
+							if ($tagsList)
+							{
+								$q = new WP_Query(array(
+									'post_type' => 'post',
+									'tag__in' => $tagsList,
+									'post__not_in' => array($globalPostId),
+									'posts_per_page' => 5,
+									'orderby' => 'rand'
+								));
+								 ?>
+								 <?php if ( $q->have_posts() ) : ?>
+
+								 	<ul>
+									<?php while ( $q->have_posts() ) : $q->the_post(); ?>
+										<li class="cat-item"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+										<li class="seperator-horizontal"></li>
+									<?php endwhile; ?>
+									</ul>
+
+								<?php endif; ?>
+							<?php } ?>
 						</div>
 					</div>
 				</div>
-				<div class="row theme_bg_white padd-row">
-					<div class="container">
-						<div class="col-md-9">
-							<h2 class="title"><?php the_title(); ?></h2>
-							<div class="main-image padd-row">
-								<?php the_post_thumbnail();?>
-							</div>
-							<div class="post-content">
-								<?php the_content(); ?>
-							</div>
-						</div>
-						<div class="col-md-3 sidebar">
-							<?php
-							if ( ! dynamic_sidebar( 'Blog sidebar' ) ) {
-							}?>
-						</div>
-					</div>
-				</div>
+			</div>
 			<?php endwhile; ?>
 		<?php endif; ?>
 	</div>

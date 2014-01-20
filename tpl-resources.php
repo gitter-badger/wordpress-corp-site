@@ -3,27 +3,10 @@
 Template Name: Resources
 */
 get_header(); ?>
-	<div id="content" class="row">
-		<?php if ( have_posts() ) : ?>
-			<?php while ( have_posts() ) : the_post(); $postId = $post->ID ?>
-			<div id="resources" class="row theme_bg_lighter">
-				<div class="container">
-					<?php
-					$mainImageUrl = get_post_meta( $postId, '_cmb_main_image', true );
-					$mainImageText = get_post_meta( $postId, '_cmb_main_text', true );
+	<div id="content">
+		<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
 
-					?>
-					<div class="intro" style="background-image: url(<?php echo $mainImageUrl; ?>);">
-						<div class="text">
-							<?php echo $mainImageText;?>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<?php endwhile; ?>
-		<?php endif; ?>
-		<div class="row sub-navigation">
+		<div class="sub-navigation">
 			<div class="container">
 				<ul id="links" class="nav center-block">
 					<li class="menu-item">
@@ -41,18 +24,18 @@ get_header(); ?>
 							<?php _e('White Papers'); ?>
 						</a>
 					</li>
-					<li class="menu-item <?php echo $active == 'faq' ? 'current-menu-item': '' ?>">
-						<a href="<?php echo get_post_type_archive_link('faq'); ?>">
+					<li class="menu-item">
+						<a href="#faq" class="smoothScroll">
 							<?php _e('Faq'); ?>
 						</a>
 					</li>
-					<li class="menu-item <?php echo $active == 'blog' ? 'current-menu-item': '' ?>">
-						<a href="<?php echo site_url('/resources/blog');?>">
+					<li class="menu-item">
+						<a href="#blog-posts" class="smoothScroll">
 							<?php _e('Blog'); ?>
 						</a>
 					</li>
-					<li class="menu-item <?php echo $active == 'video' ? 'current-menu-item': '' ?>">
-						<a href="<?php echo get_post_type_archive_link('video'); ?>">
+					<li class="menu-item">
+						<a href="#featured-videos" class="smoothScroll">
 							<?php _e('Videos'); ?>
 						</a>
 					</li>
@@ -61,10 +44,21 @@ get_header(); ?>
 		</div>
 
 		<?php include(locate_template('template-parts/tpl-partial-news.php')); ?>
-		<?php include(locate_template('template-parts/tpl-partial-case-studies-columns.php')); ?>
+
+		<div id="case-studies" class="theme_bg_light section case-studies-resources">
+			<div class="section-title">
+				<div class="container">
+					<h2 class="title col-md-9"><?php _e('Latest Case Studies'); ?></h2>
+					<div class="col-md-3 text-right"></div>
+				</div>
+			</div>
+			<?php include(locate_template('template-parts/tpl-partial-case-studies-columns.php')); ?>
+		</div>
+
 		<?php include(locate_template('template-parts/tpl-partial-white-papers.php')); ?>
 		<?php include(locate_template('template-parts/tpl-partial-faq.php')); ?>
 		<?php include(locate_template('template-parts/tpl-partial-posts.php')); ?>
+		<?php include(locate_template('template-parts/tpl-partial-featured-videos.php')); ?>
 
 
 	</div>

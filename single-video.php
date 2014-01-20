@@ -2,12 +2,12 @@
 get_header();
 ?>
 <div id="single-video-page">
-	<div id="content" class="row">
+	<div id="content" class="">
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); ?>
 			<?php $globalPostId = $post->ID; ?>
 
-					<div class="single-video-intro row theme_bg_darker">
+					<div class="single-video-intro theme_bg_darker">
 						<div class="container">
 							<div class="row">
 
@@ -20,7 +20,7 @@ get_header();
 											<div class="single-video-content">
 												<?php
 													if ($text) {
-														echo  wp_oembed_get($text, array('width' => '500'));
+														echo  wp_oembed_get($text, array('width' => '460'));
 													}
 												?>
 											</div>
@@ -39,21 +39,20 @@ get_header();
 		<?php endif; ?>
 	</div>
 
-	<div class="row sub-navigation">
+	<div class="sub-navigation">
 		<div class="container">
 			<?php $active = 'video'; ?>
 			<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
 		</div>
 	</div>
 
-		<?php $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;?>
 		<?php
 			$postsPerPage = 6;
 			$postsPerRow = 3;
 			$q = new WP_Query(array(
 				'post_type' => 'video',
 				'posts_per_page' => $postsPerPage,
-				'paged'=>$paged,
+				'paged'=> get_page_number(),
 				'ignore_sticky_posts'=> '1',
 				'post__not_in'=> array($globalPostId)
 			));
@@ -68,7 +67,7 @@ get_header();
 			<?php endif; ?>
 
 			<?php if ($index % $postsPerRow == 0 || $index == 0): ?>
-				<div class="row padd-row">
+				<div class="padd-row">
 					<div class="container">
 			<?php endif; ?>
 					<div class="video-item col-md-4">
@@ -94,7 +93,7 @@ get_header();
 			</div>
 		</div>
 	</div>
-		<div class="row">
+		<div class="">
 			<div class="pagination center-block">
 					<?php echo get_pagination($q, 'video'); ?>
 			</div><!-- #post-navigation -->
