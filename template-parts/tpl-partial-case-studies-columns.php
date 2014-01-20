@@ -1,10 +1,11 @@
 
 	<div class="container">
-
+		<?php $globalPostId = isset($globalPostId) ? $globalPostId: array(); ?>
 		<?php
 			$q = new WP_Query(array(
 				'post_type' => 'case_study',
 				'posts_per_page' => '3',
+				'post__not_in' => $globalPostId
 			));
 		?>
 		<div class="row padd-row">

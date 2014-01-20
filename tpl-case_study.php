@@ -63,10 +63,11 @@ get_header();
 									<?php the_title(); ?>
 								</a>
 							</h4>
-							<div class="answer"><?php the_content(); ?></div>
+							<div class="answer"><?php global $more; $more = 0; the_content(); ?></div>
 							<a class="pdf-link link pink" target="_blank" href="<?php echo $pdf; ?>">
 								<i class="icon fa-2x fa fa-cloud-download"></i><?php _e('PDF') ?>
 							</a>
+							<?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(),  __('Read More')); ?>
 
 					</div>
 				</li>

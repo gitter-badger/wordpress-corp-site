@@ -23,10 +23,11 @@ get_header(); ?>
 				</div>
 			</div>
 		</div>
-
+		<?php $globalPostId; ?>
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); ?>
 			<?php $pdf = get_post_meta( $post->ID, '_cmb_pdf', true ); ?>
+			<?php $globalPostId = array($post->ID); ?>
 
 
 				<div class="row theme_bg_lighter">

@@ -23,7 +23,7 @@ $the_query = new WP_Query(array(
 			</div>
 			<div class="col-md-5">
 				<h2 class="super-large-text"><?php echo $percentage_increase ?></h2>
-				<div class="desc"><?php the_excerpt();?></div>
+				<div class="desc"><?php global $more; $more = 0; the_content();?></div>
 				<?php echo get_demo_link($demo_link_hash[$color], get_permalink(),  __('Read Case Study')); ?>
 
 			</div>
