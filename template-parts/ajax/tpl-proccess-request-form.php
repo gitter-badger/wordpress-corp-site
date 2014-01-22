@@ -17,7 +17,7 @@
 		return false;
 	}
 
-	function validateForm()
+	function submitForm()
 	{
 		$errors = array();
 		$isEmailValid = false;
@@ -60,6 +60,9 @@
 		else { 	$errors['company'] = __('Please fill in your company name');
 		}
 
+		$postId = $_POST['dataContext'];
+		$post = get_post( $postId);
+
 		if (count($errors) == 0) {
 			global $wpdb;
 			$table = $wpdb->prefix . "cvo_contacts";
@@ -70,14 +73,20 @@
 				'name' => $name,
 				'email' => $email,
 				'company' => $company,
+				'item_id' => $postId,
+				'title' => $post->post_title
 			));
-			echo '1';
+			return array(
+				'status' => 'success',
+				'content' => ''
+			);
 		}
 		else {
-			$errors['responseType'] = 'Error';
-			echo json_encode($errors);
+			return array(
+				'status' => 'error',
+				'content' => $errors
+			);
 		}
 
 	}
 
-	validateForm();

@@ -9419,7 +9419,6 @@ blockquote {
 
 .error {
   color: red;
-  text-transform: uppercase;
   font-size: 11px;
 }
 
@@ -9538,6 +9537,8 @@ blockquote {
 
 .next-post-link {
   float:right;
+  position: relative;
+  right: 66px;
 }
 
 .prev-post-link {
@@ -9596,7 +9597,7 @@ li {
 }
 
 .intro {
-  background-color: #444;
+  background-color: #3f3f3f;
   width: 100%;
   height: 300px;
   position: relative;
@@ -10372,4 +10373,34 @@ li {
 .question-icon.orange{
   color: #EE7B21;
   border: 1px solid #EE7B21;
+}
+
+.thank-you-message {
+  opacity:.7;
+}
+
+.thank-you-message .edit-form {
+  display: inline-block;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+.thank-you-message .fa {
+  margin-right: 4px;
+}
+
+.pink .thank-you-message .fa {
+  color: #EE576B;
+}
+
+.teal .thank-you-message .fa {
+  color: #5DC1B4;
+}
+
+.yellow .thank-you-message .fa {
+  color: #FBC84E;
+}
+
+.orange .thank-you-message .fa {
+  color: #EE7B21;
 }

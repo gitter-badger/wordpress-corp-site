@@ -68,7 +68,15 @@ get_header();
 								<div class="col-md-9 <?php echo $cssClasses[$cssClassIndex];?>">
 										<h4 class="title"><?php the_title(); ?></h4>
 										<div class="answer"><?php the_content(); ?></div>
-										<?php echo get_demo_link($cssClasses[$cssClassIndex]. ' request-form', get_permalink(), __('Request')); ?>
+										<?php if (isset($_SESSION['data-sheets']) && in_array($post->ID, $_SESSION['data-sheets'])):?>
+											<span class="thank-you-message">
+												<i class="fa fa-check"></i>
+												Your request has been accepted. Thank you!
+												<a href="#" class="edit-form" data-context="<?php echo $post->ID; ?>">Edit</a>
+											</span>
+										<?php else:?>
+										<?php echo get_demo_link($cssClasses[$cssClassIndex]. ' request-form', get_permalink(), __('Request'), array('data-context'=>$post->ID)); ?>
+										<?php endif; ?>
 
 								</div>
 							<div class="container">

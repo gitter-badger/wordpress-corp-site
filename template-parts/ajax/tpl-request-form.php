@@ -1,4 +1,5 @@
 <form id="request-form" role="form" method="post">
+	<input type="hidden" name="data-context" value="<?php echo $_POST['dataContext']; ?>">
 <div id="request-modal" class="modal fade">
   <div class="modal-dialog" role="dialog">
     <div class="modal-content section">

@@ -1,5 +1,8 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['data-sheets'])) {
+    $_SESSION['data-sheets'] = array();
+}
 $COLOR_CLASSES = array('pink', 'orange', 'yellow', 'teal');
 
 add_action( 'wp_enqueue_scripts', 'convertro_enqueue_scripts' );
@@ -16,6 +19,8 @@ function contacts_table () {
       name tinytext NOT NULL,
       email VARCHAR(100) NOT NULL,
       company VARCHAR(100) DEFAULT '' NOT NULL,
+      item_id mediumint(9) NOT NULL,
+      title VARCHAR(255) NOT NULL,
       UNIQUE KEY id (id)
     );";
 
@@ -58,7 +63,8 @@ function on_init(){
         wp_enqueue_script('jquery');
     }
     wp_enqueue_script('bootstrap', get_template_directory_uri() . "/javascripts/vendor/bootstrap.3.0.3.js", array( 'jquery' ) );
-    wp_enqueue_script('fetch-form', get_template_directory_uri() . "/javascripts/fetch-form.js", array( 'jquery' ) );
+    wp_enqueue_script('backbone', get_template_directory_uri() . "/javascripts/vendor/backbone.js");
+    wp_enqueue_script('fetch-form', get_template_directory_uri() . "/javascripts/fetch-form.js", array( 'jquery','backbone' ) );
 
     // code to declare the URL to the file handling the AJAX request <p></p>
     wp_localize_script( 'fetch-form', 'CVO', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
@@ -68,7 +74,12 @@ add_action("wp_ajax_get_request_form_template", "get_request_form_template");
 add_action("wp_ajax_nopriv_get_request_form_template", "get_request_form_template");
 
 function get_request_form_template() {
+    $response = Array();
+    ob_start();
     include(locate_template('template-parts/ajax/tpl-request-form.php'));
+    $response['content'] = ob_get_clean();
+    $response['status'] = 100;
+    echo json_encode($response);
     die();
 }
 
@@ -77,6 +88,17 @@ add_action("wp_ajax_nopriv_submit_request_form_template", "submit_request_form_t
 
 function submit_request_form_template() {
     include(locate_template('template-parts/ajax/tpl-proccess-request-form.php'));
+
+
+    $response = submitForm();
+    if ($response['status'] == 'success') {
+        $id = isset($_POST['dataContext']) ? $_POST['dataContext'] : null;
+        if (is_numeric($id) && !in_array($id, $_SESSION['data-sheets'])) {
+            array_push($_SESSION['data-sheets'], $id);
+        }
+    }
+
+    echo json_encode($response);
     die();
 }
 
@@ -181,9 +203,10 @@ function get_demo_link($className, $link, $text, $args = null)
         $args['icon'] = isset($args['icon']) && !empty($args['icon']) ? $args['icon'] : false;
         $args['isFlipped'] = isset($args['isFlipped']) && !empty($args['isFlipped']) ? $args['isFlipped'] : false;
         $args['target'] = isset($args['target']) && !empty($args['target']) ? ' target="_blank" ' : '';
+        $args['data-context'] = isset($args['data-context']) && !empty($args['data-context']) ? ' data-context="'.$args['data-context'].'" ' : '';
     }
 
-    $buff = '<a class="demo-link ' . $className . '" href="' . $link . '"' . $args['target'] . '>';
+    $buff = '<a class="demo-link ' . $className . '" href="' . $link . '"' . $args['target'] . ' '.$args['data-context'].'>';
         if ($args['icon']) {
             $buff .= '<i class="'.$args['icon'].'"></i>';
         }
