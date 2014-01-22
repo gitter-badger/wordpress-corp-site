@@ -66,7 +66,9 @@ App.Classes.RequestResourceModel = Backbone.Model.extend({
 				inputName: name,
 				inputPhone: phone,
 			},
+
 			success: _.bind(function(response) {
+				localStorage.setItem('isUserRegistered', 'true');
 				this.set('syncContents',response.content);
 				this.set('syncStatus', response.status);
 				this.set('syncPromise', true);
@@ -106,8 +108,8 @@ App.Classes.RequestResourceView = Backbone.View.extend({
 		jQuery(e.currentTarget).addClass('current');
 		dataContext = jQuery(e.currentTarget).data('context');
 		this.model.set('dataContext', dataContext);
-		if(this.model.get('isVerifiedUser')) {
-
+		if(localStorage.getItem('isUserRegistered') === 'true') {
+			this.model.submitForm();
 		} else {
 			this.model.getRequestForm();
 		}
