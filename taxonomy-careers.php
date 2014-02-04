@@ -2,7 +2,7 @@
 get_header();
 
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
@@ -18,8 +18,7 @@ get_header();
 	</div>
 
 	<?php
-		$postsPerPage = 3;
-		$postsPerRow = 4;
+		$postsPerPage = 5;
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 		$label = (get_query_var('careers')) ? get_query_var('careers') : '';
 		$q = new WP_Query(array(
@@ -33,11 +32,24 @@ get_header();
 					'terms' => array($label)
 				)
 			)
-
 		));
 	?>
+
+	<?php echo getBreadcrumns([
+		'trail' => [
+			[site_url('/careers'),__('Carrers')]
+		],
+		'child' => get_query_var('careers')
+	]);?>
+
 	<div class="careers-list">
-		<div class="row padd-row theme_bg_lighter">
+		<div class="row theme_bg_lighter section">
+			<div class="section-title">
+				<div class="container">
+					<h2 class="title col-md-9"><?php echo __('Careers in ') . get_query_var('careers'); ?></h2>
+					<div class="col-md-3 text-right"></div>
+				</div>
+			</div>
 			<div class="container">
 				<div class="col-md-9">
 
@@ -45,15 +57,16 @@ get_header();
 					<?php $index = 4; while ( $q->have_posts() ) : $q->the_post(); ?>
 					<?php $cssClassIndex = $index % 4; ?>
 					<?php $location = get_post_meta( $post->ID, '_cmb_job_location', true ); ?>
+					<?php $jobLink = get_post_meta( $post->ID, '_cmb_job_link', true ); ?>
 					<div class="row padd-row">
-						<div class="career-item col-md-9">
+						<div class="career-item col-md-10">
 							<h4 class="title <?php echo $COLOR_CLASSES[$cssClassIndex];?>"><?php the_title(); ?></h4>
 							<h5 class="the-time dimmed">uploaded on: <?php the_time('M d, Y');?></h5>
 							<h3 class="the-time dimmed"><?php echo $location;?></h3>
 							<div class="answer"><?php the_excerpt(); ?></div>
 						</div>
-						<div class="col-md-3">
-							<div><?php echo get_demo_link($COLOR_CLASSES[$cssClassIndex], get_permalink(), __('Read More')); ?></div>
+						<div class="col-md-2 align-right">
+							<div><?php echo get_demo_link($COLOR_CLASSES[$cssClassIndex], $jobLink, __('Apply'), array('target' => true)); ?></div>
 						</div>
 					</div>
 					<?php $index += 1; endwhile; ?>

@@ -5,7 +5,7 @@ Template Name: Careers
 get_header();
 
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
@@ -59,14 +59,14 @@ get_header();
 							<?php $location = get_post_meta( $post->ID, '_cmb_job_location', true ); ?>
 							<?php $jobLink = get_post_meta( $post->ID, '_cmb_job_link', true ); ?>
 							<li class="row padd-row">
-								<div class="career-item col-md-9">
+								<div class="career-item col-md-10">
 									<h4 class="title <?php echo $COLOR_CLASSES[$cssClassIndex];?>"><?php the_title(); ?></h4>
 									<h5 class="the-time dimmed">uploaded on: <?php the_time('M d, Y');?></h5>
 									<h3 class="the-time dimmed"><?php echo $location;?></h3>
 									<div class="answer"><?php the_excerpt(); ?></div>
 								</div>
-								<div class="col-md-3">
-									<div><?php echo get_demo_link($COLOR_CLASSES[$cssClassIndex], $jobLink, __('Apply this position'), array('target' => true)); ?></div>
+								<div class="col-md-2 align-right">
+									<div><?php echo get_demo_link($COLOR_CLASSES[$cssClassIndex], $jobLink, __('Apply'), array('target' => true)); ?></div>
 								</div>
 							</li>
 							<li class="seperator-horizontal"></li>
@@ -85,8 +85,8 @@ get_header();
 							<?php wp_tag_cloud( array(
 								'taxonomy' => 'careers',
 								'format' => 'flat',
-								'smallest'  => 14,
-		    					'largest' => 14,
+								'smallest'  => 13,
+		    					'largest' => 13,
 		    					'unit'  => 'px',
 							)); ?>
 						</div>

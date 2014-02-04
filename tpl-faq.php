@@ -5,13 +5,13 @@ Template Name: Faq
 get_header();
 
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
 			<div class="col-md-12">
 				<?php $active = 'faq'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+				@include('views.common.resourcesNavigation')
 			</div>
 		</div>
 	</div>

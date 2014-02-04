@@ -4,13 +4,13 @@ Template Name: Case studies
 */
 get_header();
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
 			<div class="col-md-12">
 				<?php $active = 'case-study'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+				@include('views.common.resourcesNavigation')
 			</div>
 		</div>
 	</div>
@@ -18,7 +18,7 @@ get_header();
 	<?php
 		$cssClasses = array('pink', 'orange', 'yellow', 'teal');
 		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-		$postsPerPage = 10;
+		$postsPerPage = 5;
 		$q = new WP_Query(array(
 			'post_type' => 'case_study',
 			'posts_per_page' => $postsPerPage,
@@ -36,10 +36,10 @@ get_header();
 	));
 	?>
 	<div class="study-cases-list">
-		<div class="row theme_bg_light section">
+		<div class="theme_bg_light section">
 			<div class="section-title">
 				<div class="container">
-					<h2 class="title col-md-9"><?php _e('Study Cases'); ?></h2>
+					<h2 class="title col-md-9"><?php _e('Case Studies'); ?></h2>
 					<div class="col-md-3 text-right"></div>
 				</div>
 			</div>
@@ -49,29 +49,31 @@ get_header();
 					<?php $cssClassIndex = $index % 4; ?>
 					<?php $icon = get_post_meta( $post->ID, '_cmb_icon', true ); ?>
 					<?php $pdf = get_post_meta( $post->ID, '_cmb_pdf', true ); ?>
-				<li class="row padd-row">
-					<div class="col-md-3">
-						<div class="logo">
-							<div>
-								<img src="<?php echo $icon; ?>">
+						<li class="padd-row clearfix">
+							<div class="col-md-2">
+								<div class="logo">
+									<div class="sidebar">
+										<img src="<?php echo $icon; ?>">
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-md-9 <?php echo $cssClasses[$cssClassIndex];?>">
-							<h4 class="title question toggler <?php echo $cssClasses[$cssClassIndex];?>">
-								<a href="<?php the_permalink();?>">
-									<?php the_title(); ?>
-								</a>
-							</h4>
-							<div class="answer"><?php global $more; $more = 0; the_content(); ?></div>
-							<a class="pdf-link link pink" target="_blank" href="<?php echo $pdf; ?>">
-								<i class="icon fa-2x fa fa-cloud-download"></i><?php _e('PDF') ?>
-							</a>
-							<?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(),  __('Read More')); ?>
+							<div class="col-md-10">
+									<h4 class="title question toggler">
+										<a href="<?php the_permalink();?>">
+											<?php the_title(); ?>
+										</a>
+									</h4>
+									<div class="<?php echo $cssClasses[$cssClassIndex];?>">
+									<div class="answer"><?php global $more; $more = 0; the_content(); ?></div>
+									<a class="pdf-link link pink" target="_blank" href="<?php echo $pdf; ?>">
+										<i class="icon fa-2x fa fa-cloud-download"></i><?php _e('PDF') ?>
+									</a>
+									<?php echo get_demo_link($cssClasses[$cssClassIndex], get_permalink(),  __('Read More')); ?>
+									</div>
 
-					</div>
-				</li>
-				<li class="seperator-horizontal"></li>
+							</div>
+						</li>
+						<li class="seperator-horizontal"></li>
 					<?php $index += 1; endwhile; ?>
 				<?php endif; ?>
 

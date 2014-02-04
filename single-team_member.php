@@ -1,22 +1,15 @@
 <?php
-get_header(); ?>
-<?php
-		breadcrumbs(array(
-			'theme' => 'theme_bg_dark',
-			'trail' => array(
-				array('url' => site_url('/'), 'title' => __('Home')),
-				array('url' => site_url('/about'), 'title' => __('About'))
-			),
-			'child' => __('Team')
-		));
-	?>
-	<div class="section">
-		<div class="section-title theme_bg_lighter">
-			<div class="container">
-				<h2 class="title col-md-12"><?php _e('Our Team'); ?></h2>
-			</div>
-		</div>
-	</div>
+get_header();
+	breadcrumbs(array(
+		'theme' => 'theme_bg_dark',
+		'trail' => array(
+			array('url' => site_url('/'), 'title' => __('Home')),
+			array('url' => site_url('/about'), 'title' => __('About'))
+		),
+		'child' => __('Team')
+	));
+?>
+
 
 	<div id="content" class="row ">
 		<?php if ( have_posts() ) : ?>
@@ -35,7 +28,7 @@ get_header(); ?>
 								<div class="col-md-9">
 									<div class="title pink"><?php echo $memberName; ?></div>
 									<div class="subtitle"><?php echo $memberTitle; ?></div>
-									<div class=""><?php echo $memberDesc; ?></div>
+									<div class=""><div class="the-content"><?php echo $memberDesc; ?></div></div>
 								</div>
 							</div>
 						</div>
@@ -45,16 +38,8 @@ get_header(); ?>
 		<?php endif; ?>
 		<?php wp_reset_postdata(); ?>
 	</div>
-	<?php include(locate_template('template-parts/tpl-partial-team-executive.php')); ?>
-	<?php $args = array('themeBgClass' => 'theme_bg_white'); ?>
-	<?php include(locate_template('template-parts/tpl-partial-team.php')); ?>
 
-	<div class="row padd-row">
-		<div class="container">
-			<div class="join-us col-md-12">
+	@include('views.wholeTeam')
 
-			</div>
-		</div>
-	</div>
 </div>
 <?php get_footer(); ?>

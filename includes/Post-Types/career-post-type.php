@@ -2,8 +2,10 @@
 
 	$careers = new Custom_Post_Type('career', array(
 		'supports' => array('title'),
-		'show_in_menu' => 'convertro_settings',
-		'rewrite' => array('slug' => 'about/careers')
+		'show_in_menu' => true,
+        'menu_position' => $position['carrer'],
+		'rewrite' => array('slug' => 'about/careers'),
+        'menu_icon' => '',
 	));
 
     $careers->add_taxonomy('careers');

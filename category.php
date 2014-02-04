@@ -3,9 +3,25 @@
 Template Name: Blog
 */
 get_header(); ?>
-
+<?
+if ( get_query_var('paged') ) {
+	$paged = get_query_var('paged');
+}
+elseif ( get_query_var('page') ) {
+	$paged = get_query_var('page');
+}
+else { $paged = 1; }
+?>
 <div class="blog-posts">
-	<?php $q = get_sticky_posts(2); ?>
+	<?php
+	    $q = new WP_Query(array(
+	        'post_type' => 'blog_posts',
+	        'posts_per_page' => 2,
+	        'orderby' => 'rand',
+	        'meta_key' => '_cmb_is_featured',
+			'meta_value' => 'on',
+	    ));
+    ?>
 	<div class="featured-blog-posts header-area">
 		<div class="row padd-row theme_bg_darker">
 			<div class="container">
@@ -22,7 +38,7 @@ get_header(); ?>
 								<?php endif;?>
 							</a>
 
-							<h4 class="title ellipsis"><?php the_title(); ?></h4>
+							<h4 class="title ellipsis"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h4>
 							<h5 class="the-time dimmed">updated on: <?php the_time('M d, Y');?></h5>
 							<div>
 								<?php echo get_demo_link('pink', get_permalink(), __('View')); ?>
@@ -38,14 +54,13 @@ get_header(); ?>
 	<div class="sub-navigation">
 		<div class="container">
 			<?php $active = 'blog'; ?>
-			<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+			@include('views.common.resourcesNavigation')
 		</div>
 	</div>
 
 
 <?php
 $cat = get_category( get_query_var( "cat" ) );
-//site_url('/category/') . $cat->slug , 'title' => $cat->name)
 breadcrumbs(array(
 	'theme' => 'theme_bg_dark',
 	'trail' => array(
@@ -57,16 +72,16 @@ breadcrumbs(array(
 ?>
 
 <?php
-	$sticky = get_option( 'sticky_posts' );
-	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-	$postsPerPage = 5;
-    $q = new WP_Query(array(
-        'post_type' => 'post',
-        'posts_per_page' => $postsPerPage,
-        'paged'=>$paged,
-        'cat' => $cat->term_id
-    ));
-    ?>
+		$sticky = get_option( 'sticky_posts' );
+		$postsPerPage = 5;
+	    $q = new WP_Query(array(
+	        'post_type' => 'blog_posts',
+	        'posts_per_page' => $postsPerPage,
+	        'post__not_in' => $sticky,
+	        'paged'=>$paged,
+	        'category__in' => $cat->term_id
+	    ));
+	    ?>
 	<div class="row theme_bg_lighter section">
 		<div class="section-title">
 			<div class="container">
@@ -90,7 +105,7 @@ breadcrumbs(array(
 								</div>
 								<div class="col-md-8 padd-row post-list-item">
 									<h3 class="post-title title">
-									  <?php the_title(); ?>
+									  <a href="<?php the_permalink();?>"><?php the_title(); ?></a>
 									</h3>
 									<p class="dimmed"><?php _e('posted on') ?> <?php the_time( __( 'F jS, Y', 'convertro' ) ); ?></p>
 									<p class="categories"><span><?php _e('Categories:');?></span> <?php the_category(', '); ?></p>

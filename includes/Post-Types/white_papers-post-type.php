@@ -2,7 +2,9 @@
 
 	$clients = new Custom_Post_Type('white_paper', array(
 		'supports' => array('title', 'editor'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['white_paper'],
+        'menu_icon' => '',
 		'rewrite' => array('slug' => 'resources/white-papers')
 	));
 
@@ -18,9 +20,25 @@
 		$white = getColorBox('#FFFFFF');
 		$pink = getColorBox('#EE576B');
 
-		$meta_boxes['white_paper_metabox'] = array(
-		    'id'         => 'white_paper_permalinks',
-		    'title'      => __( 'Read more color', 'cmb' ),
+		array_push($meta_boxes, array(
+		    'id'         => 'white_paper_attachments',
+		    'title'      => __( 'Attachments', 'cmb' ),
+		    'pages'      => array('white_paper'),
+		    'context'    => 'normal',
+		    'priority'   => 'high',
+		    'show_names' => true,
+		    'fields'     => array(
+		        array(
+                    'name' => __( 'Related PDF / attachment', 'cmb' ),
+                    'id'   => $prefix . 'attachment',
+                    'type' => 'file',
+	            ),
+		    ),
+		));
+
+		array_push($meta_boxes, array(
+		    'id'         => 'white_paper_colors',
+		    'title'      => __( 'Color', 'cmb' ),
 		    'pages'      => array('white_paper'),
 		    'context'    => 'normal',
 		    'priority'   => 'high',
@@ -52,9 +70,9 @@
 		                    'value' => 'pink'
 		                ),
 		            ),
-		        )
+		        ),
 		    ),
-		);
+		));
 
 	return $meta_boxes;
 

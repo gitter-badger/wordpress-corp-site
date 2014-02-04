@@ -7,7 +7,7 @@ get_header(); ?>
 						<div class="container">
 							<div class="row">
 								<div class="hp-intro-table col-md-12">
-									<?php the_content();?>
+									<div class="the-content"><?php the_content();?></div>
 								</div>
 							</div>
 						</div>

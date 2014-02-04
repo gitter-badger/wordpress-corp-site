@@ -4,13 +4,13 @@ Template Name: White paper
 */
 get_header();
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
 			<div class="col-md-12">
 				<?php $active = 'white-paper'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+				@include('views.common.resourcesNavigation')
 			</div>
 		</div>
 	</div>
@@ -41,61 +41,56 @@ get_header();
 		<div class="theme_bg_light">
 			<div class="section-title">
 				<div class="container">
-					<h2 class="title col-md-9"><?php _e('White Papers'); ?></h2>
+					<h2 class="title col-md-9">{{ _e('White Papers') }}</h2>
 					<div class="col-md-3 text-right"></div>
 				</div>
 			</div>
 		</div>
 		<div class="theme_bg_light">
-
-
-
-			<?php if ( $q->have_posts() ) : ?>
+			<div class="container">
+			@if ( $q->have_posts() )
 					<ul>
-					<?php $index = 4; while ( $q->have_posts() ) : $q->the_post(); ?>
-					<?php $cssClassIndex = $index % 4; ?>
-					<?php $icon = get_post_meta( $post->ID, '_cmb_icon', true ); ?>
-					<?php $pdf = get_post_meta( $post->ID, '_cmb_pdf', true ); ?>
-						<li class="padd-row">
-							<div class="container">
-								<div class="col-md-1">
-									<div class="logo">
-										<div class="centerize">
-											<i class="icon fa-3x fa fa-file-text"></i>
+						<?php $index = 4; ?>
+						@while ( $q->have_posts() )
+							<?php $q->the_post(); ?>
+							<?php $cssClassIndex = $index % 4; ?>
+							<li class="padd-row clearfix">
+									<div class="col-md-2">
+										<div class="logo">
+											<div class="centerize">
+												<i class="icon fa-3x fa fa-file-text"></i>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-9 <?php echo $cssClasses[$cssClassIndex];?>">
-										<h4 class="title"><?php the_title(); ?></h4>
-										<div class="answer"><?php the_content(); ?></div>
-										<?php if (isset($_SESSION['data-sheets']) && in_array($post->ID, $_SESSION['data-sheets'])):?>
+
+									<div class="col-md-10 {{ $cssClasses[$cssClassIndex] }}">
+										<h4 class="title">{{ the_title() }}</h4>
+										<div class="answer">{{ the_content() }}</div>
+									 	@if (isset($_SESSION['white-papers']) && in_array($post->ID, $_SESSION['white-papers']))
 											<span class="thank-you-message">
 												<i class="fa fa-check"></i>
-												Your request has been accepted. Thank you!
-												<a href="#" class="edit-form" data-context="<?php echo $post->ID; ?>">Edit</a>
+												{{ _e('Your request has been accepted. Thank you!') }}
+												<a href="#" class="edit-form" data-context="<?php echo $post->ID; ?>">{{ _e('Edit') }}</a>
 											</span>
-										<?php else:?>
-										<?php echo get_demo_link($cssClasses[$cssClassIndex]. ' request-form', get_permalink(), __('Request'), array('data-context'=>$post->ID)); ?>
-										<?php endif; ?>
-
-								</div>
-							<div class="container">
-						</li>
-						<li class="seperator-horizontal"></li>
-					<?php $index += 1; endwhile; ?>
+										@else
+											{{ get_demo_link($cssClasses[$cssClassIndex]. ' request-form', get_permalink(), __('Request'), array('data-context'=> 'white-paper', 'data-item-id'=>$post->ID)) }}
+										@endif
+									</div>
+							</li>
+							<li class="col-md-12 seperator-horizontal"></li>
+							<?php $index += 1; ?>
+						@endwhile
 					</ul>
 				<?php endif; ?>
+			</div>
 			</div>
 			<div class="section-read-more">
 				<div class="container">
 					<div class="pagination center-block">
-					<?php echo get_pagination($q, 'white-paper'); ?>
+					 {{ get_pagination($q, 'white-paper') }}
 					</div>
 				</div>
 			</div>
 		</div>
-
-
 	</div>
-
 <?php get_footer(); ?>

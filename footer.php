@@ -3,16 +3,52 @@
 		<div class="container">
 			<div class="row padd-row">
 				<div id="latest-tweets" class="col-md-4">
-					<h2 class="title">Latest Tweets</h2>
+					<?php
+						if ( ! dynamic_sidebar( 'Footer Left sidebar' ) ) {
+						}?>
+
 				</div>
 				<div id="latest-blog-posts" class="col-md-4">
-					<h2 class="title">Latest Blog Posts</h2>
+					<h2 class="title"><?php _e('Latest Blog Posts');?></h2>
+					<?php
+						if ( ! dynamic_sidebar( 'Footer Middle sidebar' ) ) {
+						}?>
+					<?php
+						$sticky = get_option( 'sticky_posts' );
+						$postsPerPage = 5;
+					    $q = new WP_Query(array(
+					        'post_type' => 'blog_posts',
+					        'posts_per_page' => $postsPerPage,
+					        'post__not_in' => $sticky,
+					        'paged'=>$paged
+					    ));
+				    ?>
+
+				    <?php if ( $q->have_posts() ) : ?>
+						<?php while ( $q->have_posts() ) : $q->the_post(); ?>
+							<li class="row">
+								<a href="<?php the_permalink();?>"><?php the_title(); ?></a>
+							</li>
+						<?php endwhile; ?>
+					<?php endif; ?>
 
 				</div>
 				<div id="usefull-links" class="col-md-4">
-					<h2 class="title">Useful Links</h2>
-					<?php wp_nav_menu( array('menu' => 'Footer → Useful links' )); ?>
+					<?php
+						if ( ! dynamic_sidebar( 'Footer Right sidebar' ) ) {
+						}?>
 				</div>
+			</div>
+		</div>
+	</div><!--end footer-->
+
+	<div id="company-information" class="theme_bg_pitch_black">
+		<div class="container">
+			<div class="row padd-row">
+				<span class="title address">
+					<?php echo get_option("cvo_notifications_company_address"); ?></span>
+				<span class="title phone">
+					<?php echo get_option("cvo_notifications_company_phone"); ?></span>
 			</div>
 		</div>
 	</div><!--end footer-->
@@ -39,7 +75,6 @@
 		});
 
 	});
-
 </script>
 </body>
 </html>

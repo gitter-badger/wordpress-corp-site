@@ -1,7 +1,10 @@
 <?php
+
 	$strengths = new Custom_Post_Type('strength', array(
 		'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['strength'],
+        'menu_icon' => '',
 	));
 
 

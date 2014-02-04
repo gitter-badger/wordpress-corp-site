@@ -3,22 +3,30 @@
 Template Name: News
 */
 get_header();
+
+if ( get_query_var('paged') ) {
+	$paged = get_query_var('paged');
+}
+elseif ( get_query_var('page') ) {
+	$paged = get_query_var('page');
+}
+else { $paged = 1; }
+
 ?>
-	<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+	@include('views.common.header')
 
 	<div class="sub-navigation">
 		<div class="container">
 			<div class="col-md-12">
 				<?php $active = 'news'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+				@include('views.common.resourcesNavigation')
 			</div>
 		</div>
 	</div>
 
 	<?php
 		$cssClasses = array('pink', 'orange', 'yellow', 'teal');
-		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-		$postsPerPage = 7;
+		$postsPerPage = 5;
 		$q = new WP_Query(array(
 			'post_type' => 'news',
 			'posts_per_page' => $postsPerPage,

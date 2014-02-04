@@ -9,16 +9,13 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 			<?php while ( have_posts() ) : the_post(); $globalPostId = $post->ID; ?>
 
-			<?php
-				breadcrumbs(array(
-					'theme' => 'theme_bg_dark',
-					'trail' => array(
-						array('url' => site_url('/'), 'title' => __('Home')),
-						array('url' => site_url('/resources/blog'), 'title' => __('Blog'))
-					),
-					'child' => substr(get_the_title(), 0,15) .' [...] ' . substr(get_the_title(), -15)
-				));
-			?>
+			<?php echo getBreadcrumns([
+				'trail' => [
+					[site_url('/resources'),__('Resources')],
+					[site_url('/resources/blog'),__('Blog')],
+				],
+				'child' => getShortName(get_the_title())
+			]);?>
 			<div class="section">
 				<div class="section-title">
 					<div class="container">
@@ -47,7 +44,7 @@ get_header(); ?>
 
 						</div>
 						<div class="post-content">
-							<?php the_content(); ?>
+							<div class="the-content"><?php the_content(); ?></div>
 						</div>
 					</div>
 					<div class="col-md-3 sidebar">

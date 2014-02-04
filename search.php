@@ -11,7 +11,7 @@ get_header(); ?>
 	<div class="sub-navigation">
 		<div class="container">
 			<?php $active = 'blog'; ?>
-			<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
+			@include('views.common.resourcesNavigation')
 		</div>
 	</div>
 

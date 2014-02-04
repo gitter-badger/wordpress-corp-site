@@ -2,9 +2,10 @@
 /*
 Template Name: Resources
 */
-get_header(); ?>
+get_header();
+?>
 	<div id="content">
-		<?php include(locate_template('template-parts/common/tpl-partial-header.php')); ?>
+		@include('views.common.header')
 
 		<div class="sub-navigation">
 			<div class="container">
@@ -43,23 +44,57 @@ get_header(); ?>
 			</div>
 		</div>
 
-		<?php include(locate_template('template-parts/tpl-partial-news.php')); ?>
-
-		<div id="case-studies" class="theme_bg_light section case-studies-resources">
-			<div class="section-title">
-				<div class="container">
-					<h2 class="title col-md-9"><?php _e('Latest Case Studies'); ?></h2>
-					<div class="col-md-3 text-right"></div>
-				</div>
-			</div>
-			<?php include(locate_template('template-parts/tpl-partial-case-studies-columns.php')); ?>
+		<div id="news" class="theme_bg_darker section">
+			<?php $link = get_demo_link('dark-gray', site_url('/resources/events'),  __('News Archive'));?>
+			{{ getSectionTitle(__('Latest News')) }}
+			@include('views.simplified.news')
+			{{ getSectionFooter($link) }}
 		</div>
 
-		<?php include(locate_template('template-parts/tpl-partial-white-papers.php')); ?>
-		<?php include(locate_template('template-parts/tpl-partial-faq.php')); ?>
-		<?php include(locate_template('template-parts/tpl-partial-posts.php')); ?>
-		<?php include(locate_template('template-parts/tpl-partial-featured-videos.php')); ?>
+		<div id="case-studies" class="theme_bg_light section case-studies-resources">
+			<?php $link = get_demo_link('gray', site_url('/resources/case-studies'),  __('See all case studies'));?>
+			{{ getSectionTitle(__('Latest Case Studies')) }}
+			@include('views.simplified.caseStudies')
+			{{ getSectionFooter($link) }}
+		</div>
 
+		<div id="white-papers" class="theme_bg_white section">
+			<?php $link = get_demo_link('white', site_url('/resources/white-paper'),  __('See all white papers'));?>
+			{{ getSectionTitle(__('Latest White Papers')) }}
+			@include('views.simplified.whitePapers')
+			{{ getSectionFooter($link) }}
+		</div>
 
+		<div id="faq" class="theme_bg_dark section">
+			<?php $link = get_demo_link('gray', site_url('/resources/faq'),  __('Read all questions'));?>
+			{{ getSectionTitle(__('Latest Faq')) }}
+			@include('views.simplified.faq')
+			{{ getSectionFooter($link) }}
+		</div>
+
+		<div id="blog-posts" class="theme_bg_darker section">
+			<?php $link = get_demo_link('dark-gray', site_url('/resources/blog'),  __('See all blog posts'));?>
+			{{ getSectionTitle(__('Latest Blog Posts')) }}
+			@include('views.simplified.posts')
+			{{ getSectionFooter($link) }}
+		</div>
+
+		<div id="featured-videos" class="theme_bg_white section">
+			<?php $link = get_demo_link('white', get_post_type_archive_link('video'),  __('Watch all videos'));?>
+			{{ getSectionTitle(__('Latest Videos')) }}
+			@include('views.simplified.featuredVideos')
+			{{ getSectionFooter($link) }}
+		</div>
 	</div>
 <?php get_footer(); ?>
+
+
+
+
+
+
+
+
+
+
+

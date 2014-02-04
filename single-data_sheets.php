@@ -32,7 +32,7 @@ get_header(); ?>
 				<div class="row theme_bg_lighter">
 					<div class="container">
 						<div class="col-md-9 post-content">
-								<?php the_content(); ?>
+								<div class="the-content"><?php the_content(); ?></div>
 						</div>
 					</div>
 				</div>

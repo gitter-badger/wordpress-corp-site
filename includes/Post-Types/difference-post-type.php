@@ -1,7 +1,9 @@
 <?php
 	$difference = new Custom_Post_Type('difference', array(
 		'supports' => array('title', 'excerpt', 'editor', 'thumbnail'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['difference'],
+        'menu_icon' => '',
 	));
 
 	add_filter( 'cmb_meta_boxes', 'cmb_differences_metaboxes' );

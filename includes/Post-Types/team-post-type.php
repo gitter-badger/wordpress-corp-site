@@ -2,8 +2,12 @@
 
 	$team = new Custom_Post_Type('team member', array(
 		'supports' => array('title'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['team'],
+        'menu_icon' => '',
 	));
+
+	$team->add_taxonomy('devision', array('hierarchical'=>true));
 
 
 	add_filter( 'cmb_meta_boxes', 'cmb_team_metaboxes' );
@@ -35,10 +39,10 @@
 	            ),
 	            array(
 	                    'name'    => __( 'Job Description', 'cmb' ),
-	                    'desc' => __('500 characters maximum.','cmb'),
+	                    'desc' => __('650 characters maximum.','cmb'),
 	                    'id'      => $prefix . 'member_job_description',
 	                    'type'    => 'wysiwyg',
-	                    'options' => array('textarea_rows' => 10, 'media_buttons' => false),
+	                    'options' => array('textarea_rows' => 12, 'media_buttons' => false),
 	            ),
 				array(
                     'name' => 'Group',
@@ -48,6 +52,7 @@
                     'options' => array(
                         array('name' => 'Member', 'value' => 'member'),
                         array('name' => 'Executive', 'value' => 'executive'),
+                        array('name' => 'Advisor', 'value' => 'advisor'),
                     )
                 ),
 	        ),

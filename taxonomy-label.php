@@ -1,40 +1,5 @@
 <?php get_header(); ?>
 
-	<?php $q = get_sticky_posts(2); ?>
-	<div class="featured-blog-posts">
-		<div class="row padd-row theme_bg_darker">
-			<div class="container">
-			<?php if ( $q->have_posts() ) : ?>
-				<?php while ( $q->have_posts() ) : $q->the_post(); ?>
-						<div class="blog-post-item col-md-6">
-							<a href="<?php echo get_permalink();?>">
-								<?php if(has_post_thumbnail( $post->ID )): ?>
-									<div class="blog-post-thumbnail"><?php the_post_thumbnail('video-large');?>
-									</div>
-								<?php else:?>
-									<div class="blog-post-no-thumbnail">
-									</div>
-								<?php endif;?>
-							</a>
-							<h5 class="the-time">uploaded on: <?php the_time('M d, Y');?></h5>
-							<h4 class="title"><?php the_title(); ?></h4>
-							<div><?php echo get_demo_link('pink', get_permalink(), __('View')); ?></div>
-						</div>
-				<?php endwhile; ?>
-			<?php endif; ?>
-			</div>
-		</div>
-	</div>
-
-	<div class="sub-navigation">
-		<div class="container">
-			<div class="col-md-12">
-				<?php $active = 'faq'; ?>
-				<?php include(locate_template('template-parts/tpl-partial-resources-navigation.php')); ?>
-			</div>
-		</div>
-	</div>
-
 
 	<?php
 
@@ -56,6 +21,22 @@
 
 		));
 	?>
+<div id="single-post-page">
+<div id="content" class="">
+		<?php
+			$label = (get_query_var('label')) ? get_query_var('label') : '';
+			breadcrumbs(array(
+					'theme' => 'theme_bg_dark',
+					'trail' => array(
+						array('url' => site_url('/'), 'title' => __('Home')),
+						array('url' => site_url('/resources'), 'title' => __('Resources')),
+						array('url' => site_url('/resources/faq'), 'title' => __('Faq'))
+					),
+					'child' => getShortName($label)
+				));
+			?>
+
+
 	<div class="faq-list">
 		<div class="row theme_bg_lighter section">
 			<div class="section-title">
@@ -103,5 +84,7 @@
 		</div>
 		<?php echo get_pagination_html($q, 'faq'); ?>
 	</div>
+</div>
 
+</div>div>
 <?php get_footer(); ?>

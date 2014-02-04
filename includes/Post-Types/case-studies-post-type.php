@@ -2,7 +2,9 @@
 
 	$caseStudies = new Custom_Post_Type('case study', array(
 		'supports' => array('title','editor', 'excerpt', 'thumbnail'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['case_study'],
+        'menu_icon' => '',
 		'rewrite' => array('slug' => 'case-studies')
 	));
 	$caseStudies->add_meta_box(

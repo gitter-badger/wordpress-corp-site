@@ -2,7 +2,9 @@
 
 	$clients = new Custom_Post_Type('data_sheets', array(
 		'supports' => array('title', 'editor', 'excerpt'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['data_sheet'],
+        'menu_icon' => '',
 		'rewrite' => array('slug' => 'resources/data-sheets')
 	));
 

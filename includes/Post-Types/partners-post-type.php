@@ -2,7 +2,9 @@
 
 	$partners = new Custom_Post_Type('partner', array(
 		'supports' => array('title'),
-		'show_in_menu' => 'convertro_settings',
+		'show_in_menu' => true,
+        'menu_position' => $position['partner'],
+        'menu_icon' => '',
 	));
 
 	add_filter( 'cmb_meta_boxes', 'cmb_partners_metaboxes' );

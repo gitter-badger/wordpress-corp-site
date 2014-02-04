@@ -2,8 +2,10 @@
 
 	$clients = new Custom_Post_Type('client', array(
 		'supports' => array('title'),
-		'show_in_menu' => 'convertro_settings',
-		'rewrite' => array('slug' => 'clients')
+		'show_in_menu' => true,
+        'menu_position' => $position['client'],
+		'rewrite' => array('slug' => 'clients'),
+		'menu_icon' => '',
 	));
 
 	add_filter( 'cmb_meta_boxes', 'cmb_clients_metaboxes' );
@@ -26,8 +28,8 @@
 	        'show_names' => true,
 	        'fields'     => array(
 	            array(
-                    'name'    => __( 'Client logo Color', 'cmb' ),
-                    'id'      => $prefix . 'client_logo_color',
+                    'name'    => __( 'Client logo', 'cmb' ),
+                    'id'      => $prefix . 'client_logo',
                     'type'    => 'file',
 
 	            ),
